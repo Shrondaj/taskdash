@@ -3,280 +3,254 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TaskDash — Same-Day Help, Today</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>TaskDash</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;800&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --navy: #0b1f3a;
-    --teal: #007a6b;      /* Fresh, clean teal */
-    --teal-light: #00b38f;
-    --teal-pale: #e0f5ef;
-    --amber: #f5a623;
-    --white: #ffffff;
-    --off: #f8faf9;       /* Very clean off-white */
-    --text: #111827;
-    --muted: #6b7280;
-    --border: #e5e7eb;
-    --card-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    --radius: 16px;
-    --radius-sm: 10px;
-  }
-  body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    color: var(--text);
-    background: var(--off);
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(255,255,255,0.96);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 5%; height: 68px;
-  }
-  .logo {
-    font-family: 'Fraunces', serif;
-    font-size: 1.65rem; font-weight: 800; color: var(--navy);
-    text-decoration: none; display: flex; align-items: center; gap: 8px;
-  }
-  .logo-mark {
-    width: 34px; height: 34px; border-radius: 10px;
-    background: var(--teal); display: flex; align-items: center; justify-content: center;
-  }
-  .nav-links { display: flex; align-items: center; gap: 2rem; }
-  .nav-links a { text-decoration: none; color: var(--muted); font-weight: 500; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--teal); }
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    cursor: pointer; border: none; border-radius: var(--radius-sm);
-    font-family: inherit; font-weight: 600; transition: all 0.2s; text-decoration: none;
-  }
-  .btn-primary { background: var(--teal); color: white; padding: 11px 24px; font-size: 0.95rem; }
-  .btn-primary:hover { background: var(--teal-light); transform: translateY(-1px); }
-  .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); padding: 10px 22px; }
-  .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
-  .hamburger { display: none; font-size: 1.8rem; cursor: pointer; }
+:root {
+  --teal:#007a6b;
+  --navy:#0b1f3a;
+  --border:#e5e7eb;
+}
 
-  /* HERO & other sections – keeping your original beautiful layout but with cleaner colors */
-  .hero {
-    padding: 130px 5% 90px;
-    background: linear-gradient(160deg, #f0faf7 0%, #ffffff 60%, #f8faf9 100%);
-    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; min-height: 100vh;
-  }
-  .hero h1 { font-family: 'Fraunces', serif; font-size: clamp(2.5rem, 5.5vw, 3.8rem); font-weight: 800; line-height: 1.1; color: var(--navy); }
-  .hero h1 em { font-style: italic; color: var(--teal); }
-  .booking-card { background: white; border-radius: 20px; box-shadow: var(--card-shadow); padding: 2rem; }
-  .svc-chip { border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; cursor: pointer; transition: all 0.2s; }
-  .svc-chip:hover, .svc-chip.active { border-color: var(--teal); background: var(--teal-pale); color: var(--teal); }
-  .form-field { background: var(--off); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px; }
-  .form-field:focus { border-color: var(--teal); outline: none; }
+body {
+  font-family:'Plus Jakarta Sans',sans-serif;
+  margin:0;
+  background:linear-gradient(160deg,#eefaf7,#ffffff);
+}
 
-  /* Modal */
-  .modal {
-    position: fixed; inset: 0; background: rgba(11,31,58,0.75); backdrop-filter: blur(8px);
-    display: none; align-items: center; justify-content: center; z-index: 1000;
-  }
-  .modal-content {
-    background: white; border-radius: 20px; width: 92%; max-width: 520px;
-    max-height: 92vh; overflow-y: auto; box-shadow: 0 25px 70px rgba(0,0,0,0.15);
-  }
-  .modal-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-  .toast {
-    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-    background: var(--navy); color: white; padding: 14px 26px; border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 2000; display: none; align-items: center; gap: 10px;
-    font-weight: 500;
-  }
+/* NAV */
+nav {
+  position:fixed;
+  width:100%;
+  top:0;
+  background:rgba(255,255,255,0.7);
+  backdrop-filter:blur(14px);
+  display:flex;
+  justify-content:space-between;
+  padding:14px 5%;
+  z-index:10;
+}
 
-  /* Responsive */
-  @media (max-width: 640px) {
-    .hero { grid-template-columns: 1fr; padding-top: 110px; }
-    .nav-links { display: none; }
-    .hamburger { display: block; }
-  }
+.btn {
+  background:var(--teal);
+  color:#fff;
+  border:none;
+  padding:12px 20px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* HERO */
+.hero {
+  padding:120px 5%;
+  display:flex;
+  justify-content:space-between;
+}
+
+.booking-card {
+  width:320px;
+  padding:20px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,0.4);
+}
+
+/* chips */
+.svc-chip {
+  border:1px solid var(--border);
+  padding:10px;
+  border-radius:10px;
+  cursor:pointer;
+}
+.svc-chip.active {
+  background:rgba(0,122,107,0.15);
+  border-color:var(--teal);
+}
+
+/* modal */
+.modal {
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,0.6);
+}
+
+.modal-content {
+  width:90%;
+  max-width:420px;
+  border-radius:20px;
+  padding:20px;
+  background:rgba(255,255,255,0.75);
+  backdrop-filter:blur(20px);
+}
+
+.booking-step { display:none; }
+
+.toast {
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#111;
+  color:#fff;
+  padding:10px 20px;
+  border-radius:10px;
+  display:none;
+}
 </style>
 </head>
+
 <body>
 
 <nav>
-  <a href="#" class="logo">
-    <div class="logo-mark">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-    </div>
-    TaskDash
-  </a>
-  <div class="nav-links" id="navLinks">
-    <a href="#services">Services</a>
-    <a href="#how">How it works</a>
-    <a href="#providers">For Providers</a>
-  </div>
-  <div style="display:flex; align-items:center; gap:12px;">
-    <button onclick="openBookingModal()" class="btn btn-primary">Book Now</button>
-    <span class="hamburger" onclick="toggleMobileMenu()">☰</span>
-  </div>
+  <div>TaskDash</div>
+  <button class="btn" onclick="openModal()">Book</button>
 </nav>
 
-<!-- HERO (kept close to your original but cleaned) -->
-<section class="hero" id="booking">
+<section class="hero">
   <div>
-    <div style="background:var(--teal-pale); color:var(--teal); padding:8px 16px; border-radius:9999px; display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; font-weight:600; margin-bottom:1.5rem;">
-      <span style="display:inline-block; width:8px; height:8px; background:var(--teal); border-radius:50%;"></span>
-      Available today in Phoenix
-    </div>
-    <h1>Same-day help,<br><em>done right.</em></h1>
-    <p style="font-size:1.15rem; color:var(--muted); max-width:480px; margin:1.5rem 0 2.5rem;">Background-checked help for cleaning, lawn care, handyman jobs, hauling & more — booked in minutes.</p>
-    <button onclick="openBookingModal()" class="btn btn-primary" style="padding:16px 36px; font-size:1.1rem;">Start Booking →</button>
+    <h1>Same day help</h1>
+    <button class="btn" onclick="openModal()">Start</button>
   </div>
 
   <div class="booking-card">
-    <h3 style="margin-bottom:1.25rem; color:var(--navy);">Quick Book Example</h3>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:1rem;">
-      <div class="svc-chip active" onclick="toggleChip(this)">🏠 House Cleaning</div>
-      <div class="svc-chip" onclick="toggleChip(this)">🌿 Lawn Mowing</div>
-    </div>
-    <input class="form-field" type="text" placeholder="📍 85001 (Phoenix)" style="margin-bottom:10px; width:100%;">
-    <input class="form-field" type="text" placeholder="📅 Today • 2:00 PM" style="width:100%;">
-    <div style="background:#fff3d4; border-radius:10px; padding:14px; margin:1rem 0; display:flex; justify-content:space-between; align-items:center;">
-      <div>
-        <div style="font-size:0.85rem; color:var(--muted);">Estimated total</div>
-        <div style="font-size:1.5rem; font-weight:700; color:var(--navy); font-family:'Fraunces',serif;">$89</div>
-      </div>
-      <span style="font-size:2rem;">✅</span>
-    </div>
-    <button onclick="openBookingModal()" class="btn btn-primary" style="width:100%; padding:16px;">Find Providers Now</button>
+    <div class="svc-chip active" onclick="selectChip(this)">Cleaning</div>
+    <div class="svc-chip" onclick="selectChip(this)">Lawn</div>
   </div>
 </section>
 
-<!-- Rest of your sections (services, how it works, etc.) would go here – kept short for this demo version to focus on the booking flow -->
-
-<!-- BOOKING MODAL -->
-<div class="modal" id="bookingModal">
+<!-- MODAL -->
+<div class="modal" id="modal">
   <div class="modal-content">
-    <div class="modal-header">
-      <h3 id="modalTitle">Book a Service</h3>
-      <button onclick="closeModal()" style="font-size:1.8rem; background:none; border:none; cursor:pointer;">×</button>
+
+    <div style="height:6px;background:#eee;">
+      <div id="progress" style="height:100%;width:33%;background:var(--teal)"></div>
     </div>
 
-    <!-- Step 1 -->
-    <div id="step1" class="booking-step active" style="padding:2rem;">
-      <h4>What needs doing?</h4>
-      <div style="display:grid; grid-template-columns:1fr; gap:10px; margin:1.5rem 0;">
-        <div class="svc-chip active" onclick="selectService(this)">🏠 House Cleaning</div>
-        <div class="svc-chip" onclick="selectService(this)">🌿 Lawn Mowing</div>
-        <div class="svc-chip" onclick="selectService(this)">🚛 Junk Removal</div>
-        <div class="svc-chip" onclick="selectService(this)">🔧 Handyman Help</div>
-      </div>
-      <button onclick="nextStep(2)" class="btn btn-primary" style="width:100%;">Continue →</button>
+    <!-- STEP 1 -->
+    <div id="step1" class="booking-step">
+      <h3>Select Service</h3>
+      <div class="svc-chip active" onclick="selectService(this)">Cleaning</div>
+      <div class="svc-chip" onclick="selectService(this)">Lawn</div>
+      <button class="btn" onclick="next(2)">Next</button>
     </div>
 
-    <!-- Step 2 -->
-    <div id="step2" class="booking-step" style="padding:2rem; display:none;">
-      <h4>When & Where?</h4>
-      <input id="zipInput" class="form-field" type="text" value="85001" placeholder="ZIP Code" style="margin:12px 0; width:100%;">
-      <input id="timeInput" class="form-field" type="text" value="Today, 2:00 PM" placeholder="Preferred time" style="width:100%;">
-      <button onclick="nextStep(3)" class="btn btn-primary" style="width:100%; margin-top:1.5rem;">See Available Pros →</button>
+    <!-- STEP 2 -->
+    <div id="step2" class="booking-step">
+      <input id="zip" placeholder="ZIP" value="85001"><br><br>
+      <input id="time" placeholder="Time" value="Today 2PM"><br><br>
+      <button class="btn" onclick="next(3)">Next</button>
     </div>
 
-    <!-- Step 3 -->
-    <div id="step3" class="booking-step" style="padding:2rem; display:none;">
-      <h4>Pros ready near you</h4>
-      <div id="providerList" style="margin:1.5rem 0;"></div>
-      <button onclick="confirmBooking()" class="btn btn-primary" style="width:100%;">Confirm Booking</button>
+    <!-- STEP 3 -->
+    <div id="step3" class="booking-step">
+      <div id="providers"></div>
+      <button class="btn" onclick="confirm()">Confirm</button>
     </div>
 
-    <!-- Success -->
-    <div id="successScreen" class="booking-step" style="padding:3rem; text-align:center; display:none;">
-      <div style="font-size:5rem; margin-bottom:1rem;">🎉</div>
-      <h2 style="color:var(--teal);">Booking Confirmed!</h2>
-      <p id="successDetails" style="margin:1.5rem 0; font-size:1.05rem;"></p>
-      <button onclick="closeModal()" class="btn btn-primary" style="width:100%;">Back to Home</button>
+    <!-- SUCCESS -->
+    <div id="success" class="booking-step">
+      <h2>Booked 🎉</h2>
+      <p id="details"></p>
+      <button class="btn" onclick="closeModal()">Done</button>
     </div>
+
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-let currentBooking = {};
+let booking = {};
 
-function toggleMobileMenu() {
-  const links = document.getElementById('navLinks');
-  links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+function openModal(){
+  modal.style.display='flex';
+  show(1);
 }
 
-function openBookingModal() {
-  document.getElementById('bookingModal').style.display = 'flex';
-  showStep(1);
+function closeModal(){
+  modal.style.display='none';
 }
 
-function closeModal() {
-  document.getElementById('bookingModal').style.display = 'none';
+function show(n){
+  document.querySelectorAll('.booking-step').forEach(s=>s.style.display='none');
+
+  if(n<=3){
+    document.getElementById('step'+n).style.display='block';
+    progress.style.width=(n*33)+'%';
+  }
 }
 
-function showStep(n) {
-  document.querySelectorAll('.booking-step').forEach(step => step.style.display = 'none');
-  document.getElementById('step' + n).style.display = 'block';
-}
-
-function selectService(el) {
-  document.querySelectorAll('.svc-chip').forEach(c => c.classList.remove('active'));
+function selectChip(el){
+  el.parentElement.querySelectorAll('.svc-chip').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
-  currentBooking.service = el.textContent.trim();
 }
 
-function nextStep(n) {
-  if (n === 3) loadProviders();
-  showStep(n);
+function selectService(el){
+  selectChip(el);
+  booking.service=el.innerText;
 }
 
-function loadProviders() {
-  const list = document.getElementById('providerList');
-  list.innerHTML = `
-    <div onclick="selectProvider(this)" style="border:1.5px solid #e5e7eb; border-radius:12px; padding:1rem; margin-bottom:12px; cursor:pointer;">
-      <strong>Maria T. • 4.98 ★</strong><br>
-      <small>Arrives in ~45 min • $89 total</small>
-    </div>
-    <div onclick="selectProvider(this)" style="border:1.5px solid #e5e7eb; border-radius:12px; padding:1rem; cursor:pointer;">
-      <strong>James R. • 4.95 ★</strong><br>
-      <small>Arrives in ~70 min • $89 total</small>
-    </div>
+function next(n){
+  if(n===3){
+    booking.zip=zip.value;
+    booking.time=time.value;
+    loadProviders();
+  }
+  show(n);
+}
+
+function loadProviders(){
+  providers.innerHTML=`
+    <div onclick="pick(this)">Maria ★</div>
+    <div onclick="pick(this)">James ★</div>
   `;
+
+  setTimeout(()=>{
+    let first=document.querySelector('#providers div');
+    if(first) pick(first);
+  },100);
 }
 
-function selectProvider(el) {
-  document.querySelectorAll('#providerList > div').forEach(d => d.style.borderColor = '#e5e7eb');
-  el.style.borderColor = 'var(--teal)';
-  currentBooking.provider = el.querySelector('strong').textContent;
+function pick(el){
+  document.querySelectorAll('#providers div').forEach(d=>d.style.border='none');
+  el.style.border='2px solid teal';
+  booking.provider=el.innerText;
 }
 
-function confirmBooking() {
-  const msg = `${currentBooking.service || 'Service'} booked with ${currentBooking.provider || 'a pro'} for today.`;
-  document.getElementById('successDetails').textContent = msg;
-  showStep(4); // success
-  setTimeout(() => showToast("✅ Booking confirmed! Your pro will text you soon."), 600);
+function confirm(){
+  if(!booking.provider){
+    toastMsg("Pick a provider");
+    return;
+  }
+
+  details.innerText=
+    booking.service+" with "+booking.provider+
+    " at "+booking.time+" ("+booking.zip+")";
+
+  document.querySelectorAll('.booking-step').forEach(s=>s.style.display='none');
+  success.style.display='block';
+
+  toastMsg("Booked!");
 }
 
-function showToast(message) {
-  const toast = document.getElementById('toast');
-  toast.textContent = message;
-  toast.style.display = 'flex';
-  setTimeout(() => toast.style.display = 'none', 4500);
+function toastMsg(msg){
+  toast.innerText=msg;
+  toast.style.display='block';
+  setTimeout(()=>toast.style.display='none',3000);
 }
 
-// Welcome toast
-window.onload = () => {
-  setTimeout(() => {
-    showToast("👋 Welcome to the TaskDash demo! Try booking a service.");
-  }, 1200);
-};
+modal.addEventListener('click',e=>{
+  if(e.target===modal) closeModal();
+});
 
-// Keep your original smooth scroll if you add more sections later
+window.onload=()=>show(1);
 </script>
+
 </body>
 </html>
