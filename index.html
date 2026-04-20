@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>TaskDash</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;800&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 :root {
   --teal:#007a6b;
   --navy:#0b1f3a;
-  --border:#e5e7eb;
 }
 
 body {
-  font-family:'Plus Jakarta Sans',sans-serif;
   margin:0;
-  background:linear-gradient(160deg,#eefaf7,#ffffff);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:linear-gradient(135deg,#e6f7f3,#ffffff);
 }
 
 /* NAV */
@@ -25,21 +25,22 @@ nav {
   position:fixed;
   width:100%;
   top:0;
-  background:rgba(255,255,255,0.7);
-  backdrop-filter:blur(14px);
+  padding:15px 5%;
   display:flex;
   justify-content:space-between;
-  padding:14px 5%;
-  z-index:10;
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(12px);
 }
 
+/* BUTTON */
 .btn {
   background:var(--teal);
   color:#fff;
   border:none;
-  padding:12px 20px;
-  border-radius:10px;
+  padding:12px 22px;
+  border-radius:12px;
   cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,122,107,0.25);
 }
 
 /* HERO */
@@ -49,20 +50,22 @@ nav {
   justify-content:space-between;
 }
 
+/* GLASS CARD */
 .booking-card {
-  width:320px;
   padding:20px;
+  width:320px;
   border-radius:20px;
-  background:rgba(255,255,255,0.65);
-  backdrop-filter:blur(18px);
+  background:rgba(255,255,255,0.55);
+  backdrop-filter:blur(20px);
   border:1px solid rgba(255,255,255,0.4);
 }
 
-/* chips */
+/* CHIPS */
 .svc-chip {
-  border:1px solid var(--border);
   padding:10px;
+  border:1px solid #ddd;
   border-radius:10px;
+  margin-bottom:8px;
   cursor:pointer;
 }
 .svc-chip.active {
@@ -70,27 +73,43 @@ nav {
   border-color:var(--teal);
 }
 
-/* modal */
+/* MODAL */
 .modal {
   position:fixed;
   inset:0;
   display:none;
-  justify-content:center;
   align-items:center;
-  background:rgba(0,0,0,0.6);
+  justify-content:center;
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(8px);
 }
 
 .modal-content {
   width:90%;
   max-width:420px;
-  border-radius:20px;
   padding:20px;
-  background:rgba(255,255,255,0.75);
+  border-radius:20px;
+  background:rgba(255,255,255,0.7);
   backdrop-filter:blur(20px);
 }
 
 .booking-step { display:none; }
 
+/* PROVIDERS */
+.provider {
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  margin-bottom:10px;
+  cursor:pointer;
+  transition:.2s;
+}
+.provider.active {
+  border:2px solid var(--teal);
+  background:rgba(0,122,107,0.1);
+}
+
+/* TOAST */
 .toast {
   position:fixed;
   bottom:20px;
@@ -108,14 +127,14 @@ nav {
 <body>
 
 <nav>
-  <div>TaskDash</div>
+  <strong>TaskDash</strong>
   <button class="btn" onclick="openModal()">Book</button>
 </nav>
 
 <section class="hero">
   <div>
-    <h1>Same day help</h1>
-    <button class="btn" onclick="openModal()">Start</button>
+    <h1>Same-day help</h1>
+    <button class="btn" onclick="openModal()">Start Booking</button>
   </div>
 
   <div class="booking-card">
@@ -128,7 +147,8 @@ nav {
 <div class="modal" id="modal">
   <div class="modal-content">
 
-    <div style="height:6px;background:#eee;">
+    <!-- progress -->
+    <div style="height:6px;background:#eee;margin-bottom:15px;">
       <div id="progress" style="height:100%;width:33%;background:var(--teal)"></div>
     </div>
 
@@ -144,12 +164,12 @@ nav {
     <div id="step2" class="booking-step">
       <input id="zip" placeholder="ZIP" value="85001"><br><br>
       <input id="time" placeholder="Time" value="Today 2PM"><br><br>
-      <button class="btn" onclick="next(3)">Next</button>
+      <button class="btn" onclick="next(3)">Find Pros</button>
     </div>
 
     <!-- STEP 3 -->
     <div id="step3" class="booking-step">
-      <div id="providers"></div>
+      <div id="providers">Finding pros...</div>
       <button class="btn" onclick="confirm()">Confirm</button>
     </div>
 
@@ -166,7 +186,7 @@ nav {
 <div class="toast" id="toast"></div>
 
 <script>
-let booking = {};
+let booking={};
 
 function openModal(){
   modal.style.display='flex';
@@ -197,46 +217,66 @@ function selectService(el){
 }
 
 function next(n){
+  if(n===2 && !booking.service){
+    toastMsg("Select service");
+    return;
+  }
+
   if(n===3){
     booking.zip=zip.value;
     booking.time=time.value;
-    loadProviders();
+
+    if(!booking.zip || !booking.time){
+      toastMsg("Enter details");
+      return;
+    }
+
+    providers.innerHTML="Finding pros...";
+    setTimeout(loadProviders,800);
   }
+
   show(n);
 }
 
 function loadProviders(){
   providers.innerHTML=`
-    <div onclick="pick(this)">Maria ★</div>
-    <div onclick="pick(this)">James ★</div>
+    <div class="provider" onclick="pick(this)">
+      <strong>Maria T.</strong><br>
+      ⭐ 4.98 • 45 min
+    </div>
+    <div class="provider" onclick="pick(this)">
+      <strong>James R.</strong><br>
+      ⭐ 4.95 • 1 hr
+    </div>
   `;
 
-  setTimeout(()=>{
-    let first=document.querySelector('#providers div');
-    if(first) pick(first);
-  },100);
+  let first=document.querySelector('.provider');
+  if(first) pick(first);
 }
 
 function pick(el){
-  document.querySelectorAll('#providers div').forEach(d=>d.style.border='none');
-  el.style.border='2px solid teal';
+  document.querySelectorAll('.provider').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
   booking.provider=el.innerText;
 }
 
 function confirm(){
   if(!booking.provider){
-    toastMsg("Pick a provider");
+    toastMsg("Select provider");
     return;
   }
 
-  details.innerText=
-    booking.service+" with "+booking.provider+
-    " at "+booking.time+" ("+booking.zip+")";
+  details.innerHTML=`
+  <strong>${booking.service}</strong><br>
+  📍 ${booking.zip}<br>
+  ⏰ ${booking.time}<br><br>
+  ${booking.provider}
+  `;
 
   document.querySelectorAll('.booking-step').forEach(s=>s.style.display='none');
   success.style.display='block';
 
-  toastMsg("Booked!");
+  toastMsg("Booking confirmed");
 }
 
 function toastMsg(msg){
@@ -248,8 +288,6 @@ function toastMsg(msg){
 modal.addEventListener('click',e=>{
   if(e.target===modal) closeModal();
 });
-
-window.onload=()=>show(1);
 </script>
 
 </body>
