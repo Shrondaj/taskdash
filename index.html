@@ -6,122 +6,9 @@
 
 <title>TaskDash</title>
 
+<link rel="stylesheet" href="style.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
-
-<style>
-:root {
-  --teal:#007a6b;
-  --navy:#0b1f3a;
-}
-
-body {
-  margin:0;
-  font-family:'Plus Jakarta Sans',sans-serif;
-  background:linear-gradient(135deg,#e6f7f3,#ffffff);
-}
-
-/* NAV */
-nav {
-  position:fixed;
-  width:100%;
-  top:0;
-  padding:15px 5%;
-  display:flex;
-  justify-content:space-between;
-  background:rgba(255,255,255,0.6);
-  backdrop-filter:blur(12px);
-}
-
-/* BUTTON */
-.btn {
-  background:var(--teal);
-  color:#fff;
-  border:none;
-  padding:12px 22px;
-  border-radius:12px;
-  cursor:pointer;
-  box-shadow:0 6px 20px rgba(0,122,107,0.25);
-}
-
-/* HERO */
-.hero {
-  padding:120px 5%;
-  display:flex;
-  justify-content:space-between;
-}
-
-/* GLASS CARD */
-.booking-card {
-  padding:20px;
-  width:320px;
-  border-radius:20px;
-  background:rgba(255,255,255,0.55);
-  backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,0.4);
-}
-
-/* CHIPS */
-.svc-chip {
-  padding:10px;
-  border:1px solid #ddd;
-  border-radius:10px;
-  margin-bottom:8px;
-  cursor:pointer;
-}
-.svc-chip.active {
-  background:rgba(0,122,107,0.15);
-  border-color:var(--teal);
-}
-
-/* MODAL */
-.modal {
-  position:fixed;
-  inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  background:rgba(0,0,0,0.5);
-  backdrop-filter:blur(8px);
-}
-
-.modal-content {
-  width:90%;
-  max-width:420px;
-  padding:20px;
-  border-radius:20px;
-  background:rgba(255,255,255,0.7);
-  backdrop-filter:blur(20px);
-}
-
-.booking-step { display:none; }
-
-/* PROVIDERS */
-.provider {
-  padding:12px;
-  border:1px solid #ddd;
-  border-radius:12px;
-  margin-bottom:10px;
-  cursor:pointer;
-  transition:.2s;
-}
-.provider.active {
-  border:2px solid var(--teal);
-  background:rgba(0,122,107,0.1);
-}
-
-/* TOAST */
-.toast {
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#111;
-  color:#fff;
-  padding:10px 20px;
-  border-radius:10px;
-  display:none;
-}
-</style>
 </head>
 
 <body>
@@ -147,9 +34,8 @@ nav {
 <div class="modal" id="modal">
   <div class="modal-content">
 
-    <!-- progress -->
-    <div style="height:6px;background:#eee;margin-bottom:15px;">
-      <div id="progress" style="height:100%;width:33%;background:var(--teal)"></div>
+    <div class="progress-bar">
+      <div id="progress"></div>
     </div>
 
     <!-- STEP 1 -->
@@ -185,110 +71,7 @@ nav {
 
 <div class="toast" id="toast"></div>
 
-<script>
-let booking={};
-
-function openModal(){
-  modal.style.display='flex';
-  show(1);
-}
-
-function closeModal(){
-  modal.style.display='none';
-}
-
-function show(n){
-  document.querySelectorAll('.booking-step').forEach(s=>s.style.display='none');
-
-  if(n<=3){
-    document.getElementById('step'+n).style.display='block';
-    progress.style.width=(n*33)+'%';
-  }
-}
-
-function selectChip(el){
-  el.parentElement.querySelectorAll('.svc-chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-}
-
-function selectService(el){
-  selectChip(el);
-  booking.service=el.innerText;
-}
-
-function next(n){
-  if(n===2 && !booking.service){
-    toastMsg("Select service");
-    return;
-  }
-
-  if(n===3){
-    booking.zip=zip.value;
-    booking.time=time.value;
-
-    if(!booking.zip || !booking.time){
-      toastMsg("Enter details");
-      return;
-    }
-
-    providers.innerHTML="Finding pros...";
-    setTimeout(loadProviders,800);
-  }
-
-  show(n);
-}
-
-function loadProviders(){
-  providers.innerHTML=`
-    <div class="provider" onclick="pick(this)">
-      <strong>Maria T.</strong><br>
-      ⭐ 4.98 • 45 min
-    </div>
-    <div class="provider" onclick="pick(this)">
-      <strong>James R.</strong><br>
-      ⭐ 4.95 • 1 hr
-    </div>
-  `;
-
-  let first=document.querySelector('.provider');
-  if(first) pick(first);
-}
-
-function pick(el){
-  document.querySelectorAll('.provider').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');
-  booking.provider=el.innerText;
-}
-
-function confirm(){
-  if(!booking.provider){
-    toastMsg("Select provider");
-    return;
-  }
-
-  details.innerHTML=`
-  <strong>${booking.service}</strong><br>
-  📍 ${booking.zip}<br>
-  ⏰ ${booking.time}<br><br>
-  ${booking.provider}
-  `;
-
-  document.querySelectorAll('.booking-step').forEach(s=>s.style.display='none');
-  success.style.display='block';
-
-  toastMsg("Booking confirmed");
-}
-
-function toastMsg(msg){
-  toast.innerText=msg;
-  toast.style.display='block';
-  setTimeout(()=>toast.style.display='none',3000);
-}
-
-modal.addEventListener('click',e=>{
-  if(e.target===modal) closeModal();
-});
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
