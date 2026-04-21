@@ -297,15 +297,26 @@
     background: var(--teal);
     transform: scaleX(0); transform-origin: left;
     transition: transform 0.25s;
+    z-index: 2;
   }
   .service-card:hover::before { transform: scaleX(1); }
-  .service-icon {
-    width: 44px; height: 44px;
+  .service-photo {
+    width: calc(100% + 2.5rem);
+    margin: -1.25rem -1.25rem 1rem -1.25rem;
+    height: 140px;
+    object-fit: cover;
+    border-radius: var(--radius) var(--radius) 0 0;
+    display: block;
     background: var(--teal-pale);
-    border-radius: 10px;
+  }
+  .service-icon {
+    width: 36px; height: 36px;
+    background: white;
+    border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    margin-bottom: 0.9rem;
-    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
   .service-card h4 { font-size: 0.92rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
   .service-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
@@ -689,26 +700,147 @@
   </div>
 
   <div class="services-grid visible" id="all" data-cat="all">
-    <div class="service-card" data-tags="cleaning"><div class="service-icon">🏠</div><h4>House Cleaning</h4><p>Full home clean, kitchen & bathrooms, dusting & vacuuming</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$79</span></div></div>
-    <div class="service-card" data-tags="cleaning"><div class="service-icon">🪟</div><h4>Window Washing</h4><p>Interior & exterior window cleaning, streak-free results</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$59</span></div></div>
-    <div class="service-card" data-tags="lawn"><div class="service-icon">🌿</div><h4>Lawn Mowing</h4><p>Neat mow, trim edges, blow off walkways</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$45</span></div></div>
-    <div class="service-card" data-tags="lawn"><div class="service-icon">✂️</div><h4>Shrub & Hedge Trimming</h4><p>Shape and trim hedges, shrubs and ornamental plants</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$55</span></div></div>
-    <div class="service-card" data-tags="handyman"><div class="service-icon">🔧</div><h4>Furniture Assembly</h4><p>IKEA and all flat-pack furniture assembled quickly</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$69</span></div></div>
-    <div class="service-card" data-tags="handyman"><div class="service-icon">📺</div><h4>Mount a Flat-Screen TV</h4><p>Wall mount installation with cable management included</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$89</span></div></div>
-    <div class="service-card" data-tags="hauling"><div class="service-icon">🚛</div><h4>Junk Removal</h4><p>Haul away furniture, appliances, boxes & general clutter</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$99</span></div></div>
-    <div class="service-card" data-tags="hauling"><div class="service-icon">🪑</div><h4>Furniture Removal</h4><p>Remove and dispose of old sofas, tables, mattresses</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$79</span></div></div>
-    <div class="service-card" data-tags="organizing"><div class="service-icon">📦</div><h4>Closet Organizing</h4><p>Sort, declutter and organize any closet or storage space</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$65</span></div></div>
-    <div class="service-card" data-tags="organizing"><div class="service-icon">🏚️</div><h4>Garage Organization</h4><p>Declutter, sort and organize your garage or shed</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$75</span></div></div>
-    <div class="service-card" data-tags="tech"><div class="service-icon">📡</div><h4>Set Up WiFi Router</h4><p>Configure wireless router and connect your devices</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$59</span></div></div>
-    <div class="service-card" data-tags="tech"><div class="service-icon">🔊</div><h4>Soundbar Installation</h4><p>Mount and configure soundbar or home audio systems</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$69</span></div></div>
-    <div class="service-card" data-tags="lawn"><div class="service-icon">🌺</div><h4>Weeding Flower Beds</h4><p>Pull weeds, edge beds and clean up garden areas</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$49</span></div></div>
-    <div class="service-card" data-tags="handyman"><div class="service-icon">💡</div><h4>Hang Light Fixtures</h4><p>Install ceiling fans, light fixtures or pendant lights</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$79</span></div></div>
-    <div class="service-card" data-tags="handyman"><div class="service-icon">💦</div><h4>Power Washing</h4><p>Pressure wash driveways, patios, siding and decks</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$89</span></div></div>
-    <div class="service-card" data-tags="pets"><div class="service-icon">🐶</div><h4>Dog Walking</h4><p>30-minute or 60-minute local dog walks</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$25</span></div></div>
-    <div class="service-card" data-tags="pets"><div class="service-icon">🐾</div><h4>Pet Waste Removal</h4><p>Yard clean-up and pet waste removal services</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$35</span></div></div>
-    <div class="service-card" data-tags="vehicle"><div class="service-icon">🚗</div><h4>Mobile Car Detailing</h4><p>Interior and exterior car detail at your location</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$99</span></div></div>
-    <div class="service-card" data-tags="hauling"><div class="service-icon">📦</div><h4>Pack & Move (Same Site)</h4><p>Load/unload vehicles, move furniture between rooms</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$69</span></div></div>
-    <div class="service-card" data-tags="lawn"><div class="service-icon">❄️</div><h4>Snow Removal</h4><p>Shovel driveways, walkways and clear entryways</p><div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$55</span></div></div>
+
+    <div class="service-card" data-tags="cleaning">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1527515637462-cff94aca208c?w=400&q=80" alt="House Cleaning" loading="lazy">
+      <div class="service-icon">🏠</div>
+      <h4>House Cleaning</h4><p>Full home clean, kitchen & bathrooms, dusting & vacuuming</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$79</span></div>
+    </div>
+
+    <div class="service-card" data-tags="cleaning">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&q=80" alt="Window Washing" loading="lazy">
+      <div class="service-icon">🪟</div>
+      <h4>Window Washing</h4><p>Interior & exterior window cleaning, streak-free results</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$59</span></div>
+    </div>
+
+    <div class="service-card" data-tags="lawn">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" alt="Lawn Mowing" loading="lazy">
+      <div class="service-icon">🌿</div>
+      <h4>Lawn Mowing</h4><p>Neat mow, trim edges, blow off walkways</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$45</span></div>
+    </div>
+
+    <div class="service-card" data-tags="lawn">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80" alt="Shrub Trimming" loading="lazy">
+      <div class="service-icon">✂️</div>
+      <h4>Shrub & Hedge Trimming</h4><p>Shape and trim hedges, shrubs and ornamental plants</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$55</span></div>
+    </div>
+
+    <div class="service-card" data-tags="handyman">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?w=400&q=80" alt="Furniture Assembly" loading="lazy">
+      <div class="service-icon">🔧</div>
+      <h4>Furniture Assembly</h4><p>IKEA and all flat-pack furniture assembled quickly</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$69</span></div>
+    </div>
+
+    <div class="service-card" data-tags="handyman">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1593784991095-a205069470b6?w=400&q=80" alt="TV Wall Mount" loading="lazy">
+      <div class="service-icon">📺</div>
+      <h4>Mount a Flat-Screen TV</h4><p>Wall mount installation with cable management included</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$89</span></div>
+    </div>
+
+    <div class="service-card" data-tags="hauling">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&q=80" alt="Junk Removal" loading="lazy">
+      <div class="service-icon">🚛</div>
+      <h4>Junk Removal</h4><p>Haul away furniture, appliances, boxes & general clutter</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$99</span></div>
+    </div>
+
+    <div class="service-card" data-tags="hauling">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80" alt="Furniture Removal" loading="lazy">
+      <div class="service-icon">🪑</div>
+      <h4>Furniture Removal</h4><p>Remove and dispose of old sofas, tables, mattresses</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$79</span></div>
+    </div>
+
+    <div class="service-card" data-tags="organizing">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=400&q=80" alt="Closet Organizing" loading="lazy">
+      <div class="service-icon">📦</div>
+      <h4>Closet Organizing</h4><p>Sort, declutter and organize any closet or storage space</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$65</span></div>
+    </div>
+
+    <div class="service-card" data-tags="organizing">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" alt="Garage Organization" loading="lazy" style="filter:hue-rotate(30deg)">
+      <div class="service-icon">🏚️</div>
+      <h4>Garage Organization</h4><p>Declutter, sort and organize your garage or shed</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$75</span></div>
+    </div>
+
+    <div class="service-card" data-tags="tech">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1562408590-e32931084e23?w=400&q=80" alt="WiFi Router Setup" loading="lazy">
+      <div class="service-icon">📡</div>
+      <h4>Set Up WiFi Router</h4><p>Configure wireless router and connect your devices</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$59</span></div>
+    </div>
+
+    <div class="service-card" data-tags="tech">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Soundbar Installation" loading="lazy">
+      <div class="service-icon">🔊</div>
+      <h4>Soundbar Installation</h4><p>Mount and configure soundbar or home audio systems</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$69</span></div>
+    </div>
+
+    <div class="service-card" data-tags="lawn">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80" alt="Weeding" loading="lazy">
+      <div class="service-icon">🌺</div>
+      <h4>Weeding Flower Beds</h4><p>Pull weeds, edge beds and clean up garden areas</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$49</span></div>
+    </div>
+
+    <div class="service-card" data-tags="handyman">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1565814636199-ae8133055c1c?w=400&q=80" alt="Light Fixture" loading="lazy">
+      <div class="service-icon">💡</div>
+      <h4>Hang Light Fixtures</h4><p>Install ceiling fans, light fixtures or pendant lights</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$79</span></div>
+    </div>
+
+    <div class="service-card" data-tags="handyman">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1600298882525-02c0a45b7a97?w=400&q=80" alt="Power Washing" loading="lazy">
+      <div class="service-icon">💦</div>
+      <h4>Power Washing</h4><p>Pressure wash driveways, patios, siding and decks</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$89</span></div>
+    </div>
+
+    <div class="service-card" data-tags="pets">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&q=80" alt="Dog Walking" loading="lazy">
+      <div class="service-icon">🐶</div>
+      <h4>Dog Walking</h4><p>30-minute or 60-minute local dog walks</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$25</span></div>
+    </div>
+
+    <div class="service-card" data-tags="pets">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&q=80" alt="Pet Care" loading="lazy">
+      <div class="service-icon">🐾</div>
+      <h4>Pet Waste Removal</h4><p>Yard clean-up and pet waste removal services</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$35</span></div>
+    </div>
+
+    <div class="service-card" data-tags="vehicle">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=400&q=80" alt="Car Detailing" loading="lazy">
+      <div class="service-icon">🚗</div>
+      <h4>Mobile Car Detailing</h4><p>Interior and exterior car detail at your location</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$99</span></div>
+    </div>
+
+    <div class="service-card" data-tags="hauling">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=400&q=80" alt="Moving Help" loading="lazy">
+      <div class="service-icon">📦</div>
+      <h4>Pack & Move (Same Site)</h4><p>Load/unload vehicles, move furniture between rooms</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$69</span></div>
+    </div>
+
+    <div class="service-card" data-tags="lawn">
+      <img class="service-photo" src="https://images.unsplash.com/photo-1548262594-f5a83b354c57?w=400&q=80" alt="Snow Removal" loading="lazy">
+      <div class="service-icon">❄️</div>
+      <h4>Snow Removal</h4><p>Shovel driveways, walkways and clear entryways</p>
+      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$55</span></div>
+    </div>
+
   </div>
 </section>
 
