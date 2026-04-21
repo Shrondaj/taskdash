@@ -3,75 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>TaskDash</title>
-
 <link rel="stylesheet" href="style.css">
-
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
-
 <body>
-
 <nav>
   <strong>TaskDash</strong>
   <button class="btn" onclick="openModal()">Book</button>
+  <button class="btn" onclick="requestService()">Request Service</button>
 </nav>
-
 <section class="hero">
   <div>
     <h1>Same-day help</h1>
     <button class="btn" onclick="openModal()">Start Booking</button>
+    <button class="btn" onclick="requestService()">Request Service</button>
   </div>
-
   <div class="booking-card">
-    <div class="svc-chip active" onclick="selectChip(this)">Cleaning</div>
-    <div class="svc-chip" onclick="selectChip(this)">Lawn</div>
+    <div class="svc-chip active" onclick="selectChip(this)" data-service="Cleaning">Cleaning</div>
+    <div class="svc-chip" onclick="selectChip(this)" data-service="Lawn">Lawn</div>
   </div>
 </section>
-
 <!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
-
     <div class="progress-bar">
       <div id="progress"></div>
     </div>
-
     <!-- STEP 1 -->
     <div id="step1" class="booking-step">
       <h3>Select Service</h3>
-      <div class="svc-chip active" onclick="selectService(this)">Cleaning</div>
-      <div class="svc-chip" onclick="selectService(this)">Lawn</div>
+      <div class="svc-chip active" onclick="selectService(this)" data-service="Cleaning">Cleaning</div>
+      <div class="svc-chip" onclick="selectService(this)" data-service="Lawn">Lawn</div>
       <button class="btn" onclick="next(2)">Next</button>
     </div>
-
     <!-- STEP 2 -->
     <div id="step2" class="booking-step">
       <input id="zip" placeholder="ZIP" value="85001"><br><br>
       <input id="time" placeholder="Time" value="Today 2PM"><br><br>
       <button class="btn" onclick="next(3)">Find Pros</button>
     </div>
-
     <!-- STEP 3 -->
     <div id="step3" class="booking-step">
       <div id="providers">Finding pros...</div>
       <button class="btn" onclick="confirm()">Confirm</button>
     </div>
-
     <!-- SUCCESS -->
     <div id="success" class="booking-step">
       <h2>Booked 🎉</h2>
       <p id="details"></p>
       <button class="btn" onclick="closeModal()">Done</button>
     </div>
-
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
-
+<script>
+  function requestService() {
+    const activeChip = document.querySelector('.booking-card .svc-chip.active');
+    const service = activeChip ? activeChip.getAttribute('data-service') : 'General';
+    const subject = encodeURIComponent(service + ' Service Request');
+    const body = encodeURIComponent(
+      'Hi TaskDash,\n\n' +
+      'I would like to request the following service:\n\n' +
+      'Service: ' + service + '\n' +
+      'Name: \n' +
+      'Address: \n' +
+      'Preferred Date & Time: \n' +
+      'Additional Notes: \n\n' +
+      'Thank you!'
+    );
+    window.open('mailto:wearepowerof3@gmail.com?subject=' + subject + '&body=' + body, '_blank');
+  }
+</script>
 <script src="app.js"></script>
-
 </body>
 </html>
