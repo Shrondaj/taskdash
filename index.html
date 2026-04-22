@@ -3,1119 +3,716 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TaskDash — Same-Day Help, Today</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>TaskDash — Same-Day Home Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --navy: #0b1f3a;
-    --teal: #006d5b;
-    --teal-light: #00916e;
-    --teal-pale: #e0f5ef;
-    --amber: #f5a623;
-    --amber-light: #fff3d4;
-    --sky: #e8f4fd;
+    --navy: #0f1b2d;
+    --navy-mid: #1a2e4a;
+    --cream: #faf7f2;
+    --gold: #c9a84c;
+    --gold-lt: #e8c97a;
     --white: #ffffff;
-    --off: #f7f8fa;
-    --text: #111827;
-    --muted: #6b7280;
-    --border: #e5e7eb;
-    --card-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    --gray: #6b7280;
+    --gray-lt: #f3f4f6;
     --radius: 14px;
-    --radius-sm: 8px;
+    --shadow: 0 8px 40px rgba(15,27,45,0.14);
   }
+
+  html { scroll-behavior: smooth; }
 
   body {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    color: var(--text);
-    background: var(--white);
-    line-height: 1.6;
+    background: var(--cream);
+    color: var(--navy);
     overflow-x: hidden;
   }
 
   /* ── NAV ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 5%;
-    height: 64px;
+    padding: 18px 5%;
+    background: rgba(15,27,45,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
   }
-  .logo {
+  nav .logo {
     font-family: 'Fraunces', serif;
-    font-size: 1.6rem;
-    font-weight: 800;
+    font-size: 1.5rem; font-weight: 900;
+    color: var(--gold);
+    letter-spacing: -0.5px;
+  }
+  nav .nav-links { display: flex; gap: 12px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--gold);
     color: var(--navy);
+    border: none; border-radius: 50px;
+    padding: 11px 26px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.88rem; font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
     text-decoration: none;
-    display: flex; align-items: center; gap: 8px;
   }
-  .logo-mark {
-    width: 32px; height: 32px; border-radius: 8px;
-    background: var(--teal);
-    display: flex; align-items: center; justify-content: center;
+  .btn:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(201,168,76,0.35); }
+  .btn-outline {
+    background: transparent;
+    border: 2px solid var(--gold);
+    color: var(--gold);
   }
-  .logo-mark svg { width: 18px; height: 18px; fill: white; }
-  .nav-links { display: flex; align-items: center; gap: 2rem; }
-  .nav-links a { text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--teal); }
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; border: none; border-radius: var(--radius-sm); font-family: inherit; font-weight: 600; transition: all 0.2s; text-decoration: none; }
-  .btn-primary { background: var(--teal); color: white; padding: 10px 22px; font-size: 0.9rem; }
-  .btn-primary:hover { background: var(--teal-light); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,109,91,0.3); }
-  .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); padding: 9px 20px; font-size: 0.9rem; }
-  .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
-  .btn-xl { padding: 16px 36px; font-size: 1.05rem; border-radius: 12px; }
-  .btn-amber { background: var(--amber); color: var(--navy); }
-  .btn-amber:hover { background: #f0981a; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(245,166,35,0.4); }
-  .nav-cta { display: flex; align-items: center; gap: 1rem; }
+  .btn-outline:hover { background: var(--gold); color: var(--navy); }
+  .btn-dark { background: var(--navy); color: var(--white); }
+  .btn-dark:hover { background: var(--navy-mid); }
+  .btn-white { background: var(--white); color: var(--navy); }
+  .btn-white:hover { background: var(--cream); }
 
   /* ── HERO ── */
   .hero {
-    padding: 130px 5% 80px;
-    background: linear-gradient(160deg, #f0faf7 0%, #ffffff 50%, #fff8ec 100%);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    min-height: 100vh;
     position: relative;
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 5% 80px;
     overflow: hidden;
   }
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -200px; right: -200px;
-    width: 600px; height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,109,91,0.06) 0%, transparent 70%);
-    pointer-events: none;
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80') center/cover no-repeat;
+    filter: brightness(0.28);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 640px;
   }
   .hero-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: var(--teal-pale); color: var(--teal);
-    padding: 6px 14px; border-radius: 100px;
-    font-size: 0.8rem; font-weight: 600;
-    margin-bottom: 1.25rem;
-    letter-spacing: 0.02em;
-  }
-  .hero-badge::before {
-    content: '';
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--teal); display: inline-block;
+    display: inline-block;
+    background: rgba(201,168,76,0.18);
+    border: 1px solid rgba(201,168,76,0.5);
+    color: var(--gold-lt);
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 16px; border-radius: 50px;
+    margin-bottom: 28px;
   }
   .hero h1 {
     font-family: 'Fraunces', serif;
-    font-size: clamp(2.4rem, 5vw, 3.6rem);
-    font-weight: 800;
-    line-height: 1.1;
-    color: var(--navy);
-    margin-bottom: 1.25rem;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 900; line-height: 1.08;
+    color: var(--white);
+    margin-bottom: 22px;
   }
-  .hero h1 em { font-style: italic; color: var(--teal); }
+  .hero h1 em { color: var(--gold); font-style: italic; }
   .hero p {
-    font-size: 1.1rem;
-    color: var(--muted);
-    max-width: 480px;
-    margin-bottom: 2rem;
-    line-height: 1.7;
+    font-size: 1.15rem; color: rgba(255,255,255,0.75);
+    line-height: 1.7; margin-bottom: 38px; max-width: 480px;
   }
-  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
-  .trust-row { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
-  .trust-item { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--muted); font-weight: 500; }
-  .trust-item svg { width: 14px; height: 14px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
 
-  /* Hero visual card */
-  .hero-visual { position: relative; }
-  .booking-card {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 24px 60px rgba(0,0,0,0.12);
-    padding: 1.75rem;
-    position: relative;
-    z-index: 2;
-  }
-  .booking-card h3 {
-    font-size: 1rem; font-weight: 700; color: var(--navy);
-    margin-bottom: 1.25rem;
-  }
-  .service-select-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 8px; margin-bottom: 1rem;
+  .hero-chips {
+    position: absolute; bottom: 50px; right: 5%;
+    display: flex; gap: 12px; z-index: 2;
   }
   .svc-chip {
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 10px 12px;
-    font-size: 0.8rem; font-weight: 600;
-    color: var(--text);
+    background: rgba(255,255,255,0.1);
+    border: 1.5px solid rgba(255,255,255,0.25);
+    color: var(--white);
+    padding: 10px 22px; border-radius: 50px;
+    font-size: 0.88rem; font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    display: flex; align-items: center; gap: 7px;
-    background: white;
   }
-  .svc-chip:hover, .svc-chip.active {
-    border-color: var(--teal); color: var(--teal);
-    background: var(--teal-pale);
+  .svc-chip.active, .svc-chip:hover {
+    background: var(--gold); border-color: var(--gold); color: var(--navy);
   }
-  .svc-chip svg { width: 15px; height: 15px; flex-shrink: 0; }
-  .form-row {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 8px; margin-bottom: 1rem;
-  }
-  .form-field {
-    background: var(--off);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 10px 12px;
-    font-family: inherit; font-size: 0.85rem;
-    color: var(--text); width: 100%;
-    transition: border-color 0.2s;
-  }
-  .form-field:focus { outline: none; border-color: var(--teal); }
-  .price-tag {
-    background: var(--amber-light);
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 1rem;
-  }
-  .price-label { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
-  .price-value { font-size: 1.4rem; font-weight: 700; color: var(--navy); font-family: 'Fraunces', serif; }
-  .price-note { font-size: 0.72rem; color: var(--muted); }
 
-  .float-card {
-    position: absolute;
-    background: white;
-    border-radius: 14px;
-    padding: 12px 16px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    z-index: 3;
-  }
-  .float-card.provider {
-    bottom: -20px; left: -30px;
-    display: flex; align-items: center; gap: 10px;
-    min-width: 200px;
-  }
-  .avatar-stack { display: flex; }
-  .avatar-stack .av {
-    width: 32px; height: 32px; border-radius: 50%;
-    border: 2px solid white;
-    background: var(--teal-pale);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.7rem; font-weight: 700; color: var(--teal);
-    margin-left: -8px;
-  }
-  .avatar-stack .av:first-child { margin-left: 0; }
-  .float-card.rating {
-    top: 20px; right: -20px;
-    text-align: center;
-    min-width: 90px;
-  }
-  .stars { color: var(--amber); font-size: 0.9rem; letter-spacing: 1px; }
-  .rating-num { font-size: 1.3rem; font-weight: 700; color: var(--navy); font-family: 'Fraunces', serif; }
-  .rating-sub { font-size: 0.7rem; color: var(--muted); }
-
-  /* ── STATS BAR ── */
-  .stats-bar {
+  /* ── STATS STRIP ── */
+  .stats-strip {
     background: var(--navy);
-    padding: 2rem 5%;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
+    padding: 32px 5%;
+    display: flex; gap: 0; justify-content: center; flex-wrap: wrap;
   }
-  .stat-item { text-align: center; }
+  .stat {
+    flex: 1; min-width: 160px;
+    text-align: center; padding: 16px 24px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .stat:last-child { border-right: none; }
   .stat-num {
     font-family: 'Fraunces', serif;
-    font-size: 2rem; font-weight: 800; color: white;
+    font-size: 2.4rem; font-weight: 900;
+    color: var(--gold);
     display: block;
   }
-  .stat-num span { color: var(--amber); }
-  .stat-label { font-size: 0.82rem; color: rgba(255,255,255,0.55); font-weight: 500; margin-top: 2px; }
+  .stat-label { font-size: 0.82rem; color: rgba(255,255,255,0.55); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.8px; }
 
-  /* ── SECTIONS ── */
-  section { padding: 80px 5%; }
-  .section-header { text-align: center; max-width: 640px; margin: 0 auto 3.5rem; }
-  .section-badge {
-    display: inline-block;
-    background: var(--teal-pale); color: var(--teal);
-    padding: 4px 14px; border-radius: 100px;
-    font-size: 0.78rem; font-weight: 700;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    margin-bottom: 1rem;
+  /* ── SECTION COMMONS ── */
+  section { padding: 90px 5%; }
+  .section-tag {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 14px; display: block;
   }
-  .section-header h2 {
+  .section-title {
     font-family: 'Fraunces', serif;
-    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
-    font-weight: 800; color: var(--navy);
-    line-height: 1.2; margin-bottom: 0.75rem;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 900; line-height: 1.15;
+    margin-bottom: 16px;
   }
-  .section-header p { color: var(--muted); font-size: 1rem; line-height: 1.7; }
+  .section-sub {
+    font-size: 1.05rem; color: var(--gray);
+    line-height: 1.7; max-width: 520px;
+    margin-bottom: 52px;
+  }
 
-  /* ── CATEGORIES ── */
-  .categories-bg { background: var(--off); }
-  .cat-tabs {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    justify-content: center; margin-bottom: 2.5rem;
-  }
-  .cat-tab {
-    padding: 8px 18px;
-    border: 1.5px solid var(--border);
-    border-radius: 100px;
-    font-size: 0.85rem; font-weight: 600;
-    color: var(--muted); background: white;
-    cursor: pointer; transition: all 0.2s;
-  }
-  .cat-tab:hover, .cat-tab.active {
-    background: var(--teal); color: white; border-color: var(--teal);
-  }
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1rem;
-  }
-  .service-card {
-    background: white;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.25rem;
-    cursor: pointer;
-    transition: all 0.25s;
-    position: relative;
-    overflow: hidden;
-  }
-  .service-card:hover {
-    border-color: var(--teal);
-    box-shadow: var(--card-shadow);
-    transform: translateY(-2px);
-  }
-  .service-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: var(--teal);
-    transform: scaleX(0); transform-origin: left;
-    transition: transform 0.25s;
-    z-index: 2;
-  }
-  .service-card:hover::before { transform: scaleX(1); }
-  .service-photo {
-    width: calc(100% + 2.5rem);
-    margin: -1.25rem -1.25rem 1rem -1.25rem;
-    height: 140px;
-    object-fit: cover;
-    border-radius: var(--radius) var(--radius) 0 0;
-    display: block;
-    background: var(--teal-pale);
-  }
-  .service-icon {
-    width: 36px; height: 36px;
-    background: white;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 0.75rem;
-    font-size: 1.1rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  }
-  .service-card h4 { font-size: 0.92rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
-  .service-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
-  .service-price {
-    margin-top: 0.9rem; padding-top: 0.9rem;
-    border-top: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .price-from { font-size: 0.72rem; color: var(--muted); }
-  .price-amount { font-size: 1rem; font-weight: 700; color: var(--teal); font-family: 'Fraunces', serif; }
+  /* ── YOUR TIME SECTION ── */
+  .your-time { background: var(--white); }
+  .your-time-header { text-align: center; }
+  .your-time-header .section-sub { margin: 0 auto 52px; }
 
-  /* ── PERKS ── */
-  .perks-grid {
+  .time-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    gap: 20px;
   }
-  .perk-card {
-    background: var(--off);
-    border-radius: var(--radius);
-    padding: 2rem 1.75rem;
-    border: 1.5px solid transparent;
-    transition: all 0.25s;
+  .time-card {
+    position: relative; border-radius: var(--radius); overflow: hidden;
+    aspect-ratio: 4/3;
+    cursor: default;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
   }
-  .perk-card:hover { border-color: var(--teal-pale); background: white; box-shadow: var(--card-shadow); }
-  .perk-icon {
-    width: 52px; height: 52px;
-    background: var(--navy);
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 1.25rem;
-    font-size: 1.5rem;
+  .time-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(15,27,45,0.2); }
+  .time-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s;
   }
-  .perk-card h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
-  .perk-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+  .time-card:hover img { transform: scale(1.05); }
+  .time-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(15,27,45,0.88) 0%, transparent 55%);
+  }
+  .time-card-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 20px 22px;
+    color: var(--white);
+  }
+  .time-card-label h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem; font-weight: 700; margin-bottom: 3px;
+  }
+  .time-card-label p { font-size: 0.8rem; color: rgba(255,255,255,0.65); }
+  .time-card-tag {
+    position: absolute; top: 14px; left: 14px;
+    background: var(--gold); color: var(--navy);
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.8px;
+    text-transform: uppercase; padding: 4px 12px; border-radius: 50px;
+  }
 
   /* ── HOW IT WORKS ── */
-  .how-bg { background: var(--navy); }
-  .how-bg .section-header h2 { color: white; }
-  .how-bg .section-header p { color: rgba(255,255,255,0.55); }
-  .how-bg .section-badge { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
-  .steps-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem; position: relative;
-  }
-  .steps-grid::before {
-    content: '';
-    position: absolute; top: 32px; left: 12%;right: 12%;
-    height: 2px;
-    background: repeating-linear-gradient(90deg, rgba(255,255,255,0.15) 0, rgba(255,255,255,0.15) 12px, transparent 12px, transparent 24px);
-  }
-  .step-item { text-align: center; position: relative; z-index: 1; }
-  .step-num {
-    width: 64px; height: 64px;
-    background: var(--teal);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 1.25rem;
-    font-family: 'Fraunces', serif;
-    font-size: 1.5rem; font-weight: 800; color: white;
-    box-shadow: 0 0 0 8px rgba(0,109,91,0.15);
-  }
-  .step-item h3 { font-size: 0.95rem; font-weight: 700; color: white; margin-bottom: 0.5rem; }
-  .step-item p { font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
-
-  /* ── WHO USES IT ── */
-  .pros-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
-  }
-  .pro-card {
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.75rem;
-    display: flex; gap: 1.25rem; align-items: flex-start;
-    transition: all 0.25s;
-    background: white;
-  }
-  .pro-card:hover { border-color: var(--teal); box-shadow: var(--card-shadow); }
-  .pro-icon-wrap {
-    width: 52px; height: 52px; border-radius: 12px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem;
-  }
-  .pro-icon-wrap.teal { background: var(--teal-pale); }
-  .pro-icon-wrap.amber { background: var(--amber-light); }
-  .pro-icon-wrap.navy { background: #e8edf6; }
-  .pro-icon-wrap.pink { background: #fce8ee; }
-  .pro-card h3 { font-size: 0.97rem; font-weight: 700; color: var(--navy); margin-bottom: 0.4rem; }
-  .pro-card p { font-size: 0.84rem; color: var(--muted); line-height: 1.6; }
-
-  /* ── GUARANTEE ── */
-  .guarantee-wrap {
-    background: linear-gradient(135deg, var(--navy) 0%, #1a3a5c 100%);
-    border-radius: 24px;
-    padding: 4rem 5%;
-    display: grid; grid-template-columns: 1fr auto;
-    gap: 4rem; align-items: center;
+  .how { background: var(--cream); }
+  .steps { display: flex; gap: 32px; flex-wrap: wrap; }
+  .step {
+    flex: 1; min-width: 220px;
+    background: var(--white); border-radius: var(--radius);
+    padding: 36px 28px; box-shadow: var(--shadow);
     position: relative; overflow: hidden;
+    transition: transform 0.3s;
   }
-  .guarantee-wrap::after {
-    content: '✓';
-    position: absolute; right: 8%; top: 50%; transform: translateY(-50%);
+  .step:hover { transform: translateY(-5px); }
+  .step-num {
     font-family: 'Fraunces', serif;
-    font-size: 12rem; font-weight: 800;
-    color: rgba(255,255,255,0.04);
-    pointer-events: none;
+    font-size: 4.5rem; font-weight: 900;
+    color: rgba(201,168,76,0.12);
+    position: absolute; top: 10px; right: 18px;
+    line-height: 1;
   }
-  .guarantee-wrap h2 {
-    font-family: 'Fraunces', serif;
-    font-size: 2rem; font-weight: 800; color: white; margin-bottom: 0.75rem;
-  }
-  .guarantee-wrap p { color: rgba(255,255,255,0.6); font-size: 0.95rem; line-height: 1.7; max-width: 560px; }
-  .guarantee-badge {
-    background: var(--amber); color: var(--navy);
-    border-radius: 50%;
-    width: 120px; height: 120px;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center;
-    font-weight: 800; font-size: 0.8rem;
-    line-height: 1.3;
-    flex-shrink: 0;
-    font-family: 'Fraunces', serif;
-    position: relative; z-index: 1;
-  }
+  .step-icon { font-size: 1.8rem; margin-bottom: 16px; }
+  .step h3 { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; }
+  .step p { font-size: 0.9rem; color: var(--gray); line-height: 1.6; }
 
-  /* ── CUSTOM JOB CTA ── */
-  .custom-section {
-    background: var(--teal-pale);
-    border-radius: 24px;
-    padding: 3rem;
-    display: flex; align-items: center; justify-content: space-between; gap: 2rem;
-    flex-wrap: wrap;
-    margin: 0 5% 80px;
+  /* ── TRUSTED BY ── */
+  .trusted { background: var(--navy); }
+  .trusted .section-title, .trusted .section-tag { color: var(--white); }
+  .trusted .section-tag { color: var(--gold); }
+  .trusted .section-sub { color: rgba(255,255,255,0.55); }
+  .trusted-header { text-align: center; }
+  .trusted-header .section-sub { margin: 0 auto 52px; }
+
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
-  .custom-section h2 {
-    font-family: 'Fraunces', serif;
-    font-size: 1.6rem; font-weight: 800; color: var(--navy); margin-bottom: 0.5rem;
+  .trust-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius); padding: 28px 24px;
+    display: flex; gap: 16px; align-items: flex-start;
+    transition: background 0.2s, border-color 0.2s;
   }
-  .custom-section p { color: var(--teal); font-size: 0.9rem; max-width: 480px; }
+  .trust-card:hover { background: rgba(255,255,255,0.09); border-color: rgba(201,168,76,0.35); }
+  .trust-avatar {
+    width: 58px; height: 58px; border-radius: 50%;
+    object-fit: cover; flex-shrink: 0;
+    border: 2px solid var(--gold);
+  }
+  .trust-info { flex: 1; }
+  .trust-stars { color: var(--gold); font-size: 0.85rem; margin-bottom: 6px; letter-spacing: 1px; }
+  .trust-quote { font-size: 0.88rem; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 12px; font-style: italic; }
+  .trust-name { font-size: 0.8rem; font-weight: 700; color: var(--white); }
+  .trust-loc { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 1px; }
 
   /* ── PROVIDER CTA ── */
-  .provider-section {
-    background: var(--off);
+  .provider-cta {
+    background: linear-gradient(135deg, var(--gold) 0%, #b8872e 100%);
     padding: 80px 5%;
-    text-align: center;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 40px; flex-wrap: wrap;
   }
-  .provider-section h2 {
+  .provider-cta-text h2 {
     font-family: 'Fraunces', serif;
-    font-size: 2rem; font-weight: 800; color: var(--navy); margin-bottom: 0.75rem;
+    font-size: clamp(2rem, 4vw, 3rem); font-weight: 900;
+    color: var(--navy); line-height: 1.15; margin-bottom: 12px;
   }
-  .provider-section p { color: var(--muted); font-size: 1rem; max-width: 520px; margin: 0 auto 2rem; }
-  .email-form {
-    display: flex; gap: 10px; max-width: 440px; margin: 0 auto;
-    flex-wrap: wrap; justify-content: center;
-  }
-  .email-form input {
-    flex: 1; min-width: 200px;
-    padding: 13px 18px;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    font-family: inherit; font-size: 0.9rem;
-    background: white; color: var(--text);
-  }
-  .email-form input:focus { outline: none; border-color: var(--teal); }
-  .provider-perks {
-    display: flex; gap: 2rem; justify-content: center;
-    flex-wrap: wrap; margin-top: 2.5rem;
-  }
-  .p-perk { display: flex; align-items: center; gap: 7px; font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+  .provider-cta-text p { font-size: 1.05rem; color: rgba(15,27,45,0.7); max-width: 480px; }
+  .provider-cta-actions { display: flex; gap: 14px; flex-wrap: wrap; }
 
   /* ── FOOTER ── */
   footer {
-    background: var(--navy);
-    padding: 3rem 5% 1.5rem;
-    color: rgba(255,255,255,0.6);
+    background: #080f1a;
+    padding: 48px 5% 28px;
+    text-align: center;
   }
-  .footer-top {
-    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 3rem; margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-  .footer-logo {
+  footer .logo {
     font-family: 'Fraunces', serif;
-    font-size: 1.3rem; font-weight: 800; color: white; margin-bottom: 0.75rem;
-    display: block;
+    font-size: 1.8rem; font-weight: 900;
+    color: var(--gold); margin-bottom: 12px;
   }
-  .footer-desc { font-size: 0.84rem; line-height: 1.7; max-width: 240px; }
-  .footer-col h4 { font-size: 0.84rem; font-weight: 700; color: white; margin-bottom: 1rem; letter-spacing: 0.04em; }
-  .footer-col a {
-    display: block; color: rgba(255,255,255,0.5);
-    text-decoration: none; font-size: 0.83rem;
-    margin-bottom: 0.6rem; transition: color 0.2s;
-  }
-  .footer-col a:hover { color: white; }
-  .footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; flex-wrap: wrap; gap: 1rem; }
-  .app-badges { display: flex; gap: 10px; }
-  .app-badge {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 8px; padding: 8px 14px;
-    font-size: 0.78rem; color: white; font-weight: 600;
-    cursor: pointer; transition: background 0.2s;
-  }
-  .app-badge:hover { background: rgba(255,255,255,0.14); }
+  footer p { font-size: 0.82rem; color: rgba(255,255,255,0.3); }
+  footer a { color: rgba(255,255,255,0.45); text-decoration: none; }
+  footer a:hover { color: var(--gold); }
 
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-  .hero h1 { animation: fadeUp 0.6s ease both 0.1s; }
-  .hero p { animation: fadeUp 0.6s ease both 0.2s; }
-  .hero-actions { animation: fadeUp 0.6s ease both 0.3s; }
-  .trust-row { animation: fadeUp 0.6s ease both 0.4s; }
-  .hero-visual { animation: fadeUp 0.7s ease both 0.3s; }
-
-  /* ── CATEGORY DATA ── */
-  [data-cat] { display: none; }
-  [data-cat].visible { display: grid; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; padding-top: 100px; min-height: unset; }
-    .hero-visual { order: -1; max-width: 440px; margin: 0 auto; }
-    .perks-grid { grid-template-columns: 1fr 1fr; }
-    .steps-grid { grid-template-columns: 1fr 1fr; }
-    .steps-grid::before { display: none; }
-    .footer-top { grid-template-columns: 1fr 1fr; }
-    .guarantee-wrap { grid-template-columns: 1fr; }
-    .guarantee-badge { margin: 0 auto; }
+  /* ── MODAL ── */
+  .modal {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(8,15,26,0.85); backdrop-filter: blur(8px);
+    justify-content: center; align-items: center;
   }
-  @media (max-width: 640px) {
-    .stats-bar { grid-template-columns: 1fr 1fr; }
-    .perks-grid, .pros-grid { grid-template-columns: 1fr; }
-    .steps-grid { grid-template-columns: 1fr; }
-    .footer-top { grid-template-columns: 1fr; }
-    nav .nav-links { display: none; }
+  .modal.open { display: flex; }
+  .modal-content {
+    background: var(--white); border-radius: 20px;
+    padding: 40px 36px; width: 90%; max-width: 440px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+    position: relative;
   }
+  .modal-close {
+    position: absolute; top: 16px; right: 20px;
+    background: none; border: none; font-size: 1.4rem;
+    cursor: pointer; color: var(--gray);
+  }
+  .progress-bar {
+    height: 4px; background: var(--gray-lt); border-radius: 4px;
+    margin-bottom: 32px; overflow: hidden;
+  }
+  #progress {
+    height: 100%; background: var(--gold); border-radius: 4px;
+    transition: width 0.4s ease; width: 33%;
+  }
+  .booking-step { display: none; }
+  .booking-step.active { display: block; }
+  .booking-step h3 {
+    font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 800;
+    color: var(--navy); margin-bottom: 22px;
+  }
+  .booking-step input {
+    width: 100%; padding: 13px 16px;
+    border: 1.5px solid #e0e0e0; border-radius: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem;
+    outline: none; transition: border-color 0.2s;
+    margin-bottom: 14px;
+  }
+  .booking-step input:focus { border-color: var(--gold); }
+  .step-chips { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+  .step-chips .svc-chip {
+    background: var(--gray-lt); border: 1.5px solid #e0e0e0;
+    color: var(--navy); padding: 10px 20px;
+  }
+  .step-chips .svc-chip.active { background: var(--gold); border-color: var(--gold); color: var(--navy); }
 
-  .check-icon { color: var(--teal); margin-right: 5px; }
+  #providers { margin: 16px 0 24px; }
+  .provider-card {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px; border: 1.5px solid #e0e0e0; border-radius: 12px;
+    margin-bottom: 10px; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .provider-card:hover, .provider-card.selected { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+  .provider-card img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+  .provider-card-info { flex: 1; }
+  .provider-card-info strong { font-size: 0.9rem; display: block; }
+  .provider-card-info span { font-size: 0.78rem; color: var(--gray); }
+  .provider-card-rating { color: var(--gold); font-size: 0.82rem; }
+
+  #success { text-align: center; padding: 20px 0; }
+  #success h2 { font-family: 'Fraunces', serif; font-size: 2rem; margin-bottom: 10px; }
+  #success p { color: var(--gray); margin-bottom: 28px; line-height: 1.7; }
+
+  .toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: var(--navy); color: var(--white);
+    padding: 12px 28px; border-radius: 50px;
+    font-size: 0.88rem; font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 9999;
+  }
+  .toast.show { opacity: 1; }
+
+  @media(max-width:900px) {
+    .time-grid, .trust-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-chips { display: none; }
+  }
+  @media(max-width:600px) {
+    .time-grid, .trust-grid { grid-template-columns: 1fr; }
+    .steps { flex-direction: column; }
+    nav .nav-links .btn-outline { display: none; }
+    .provider-cta { flex-direction: column; }
+  }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="logo">
-    <div class="logo-mark">
-      <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-    </div>
-    TaskDash
-  </a>
+  <span class="logo">TaskDash</span>
   <div class="nav-links">
-    <a href="#services">Services</a>
-    <a href="#how">How it works</a>
-    <a href="#pros">For Professionals</a>
-    <a href="#providers">Become a Provider</a>
-  </div>
-  <div class="nav-cta">
-    <a href="#providers" class="btn btn-outline">Become a Provider</a>
-    <a href="#booking" class="btn btn-primary">Book Now</a>
+    <a class="btn btn-outline" href="mailto:wearepowerof3@gmail.com?subject=Become%20a%20Provider&body=Hi%20TaskDash%2C%0A%0AI%27m%20interested%20in%20becoming%20a%20service%20provider.%0A%0AName%3A%20%0AService%20Type%3A%20%0ACity%2FZIP%3A%20%0APhone%3A%20%0A%0AThank%20you!">Become a Provider</a>
+    <button class="btn" onclick="openModal()">Book Now</button>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero" id="booking">
+<section class="hero">
+  <div class="hero-bg"></div>
   <div class="hero-content">
-    <div class="hero-badge">Available 7 days a week</div>
-    <h1>Same-day help,<br><em>done right.</em></h1>
-    <p>Find background-checked, pre-priced help for cleaning, lawn care, handyman work, hauling, and more — in your neighborhood, today.</p>
+    <span class="hero-badge">Phoenix Metro · Same-Day Available</span>
+    <h1>Home help,<br><em>on your</em> schedule.</h1>
+    <p>Vetted local pros for cleaning, lawn care, and more — booked in minutes, done today.</p>
     <div class="hero-actions">
-      <a href="#services" class="btn btn-primary btn-xl">Browse Services</a>
-      <a href="#providers" class="btn btn-outline btn-xl">Become a Provider</a>
-    </div>
-    <div class="trust-row">
-      <div class="trust-item">
-        <svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--teal)"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-        Background-checked providers
-      </div>
-      <div class="trust-item">
-        <svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--teal)"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
-        Same-day availability
-      </div>
-      <div class="trust-item">
-        <svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--teal)"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
-        Pre-priced, no surprises
-      </div>
+      <button class="btn" onclick="openModal()">Book Now</button>
+      <a class="btn btn-outline" href="mailto:wearepowerof3@gmail.com?subject=Service%20Request&body=Hi%20TaskDash%2C%0A%0AI%20would%20like%20to%20request%20a%20service%3A%0A%0AService%3A%20%0AName%3A%20%0AAddress%3A%20%0APreferred%20Date%20%26%20Time%3A%20%0ANotes%3A%20%0A%0AThank%20you!">Request Service</a>
     </div>
   </div>
-
-  <div class="hero-visual">
-    <div class="booking-card">
-      <h3>🔍 Find help for a task</h3>
-      <div class="service-select-grid">
-        <div class="svc-chip active" onclick="toggleChip(this)">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-          House Cleaning
-        </div>
-        <div class="svc-chip" onclick="toggleChip(this)">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20c4 0 4-2 8-2s4 2 8 2v-2c-4 0-4-2-8-2-1.48 0-2.44.3-3.23.63C14.22 12.06 16.25 9.91 17 8z"/></svg>
-          Lawn Care
-        </div>
-        <div class="svc-chip" onclick="toggleChip(this)">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3z"/></svg>
-          Junk Removal
-        </div>
-        <div class="svc-chip" onclick="toggleChip(this)">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
-          Handyman
-        </div>
-      </div>
-      <div class="form-row">
-        <input class="form-field" type="text" placeholder="📍 Your ZIP code" />
-        <input class="form-field" type="text" placeholder="📅 Today, 2:00 PM" />
-      </div>
-      <div class="price-tag">
-        <div>
-          <div class="price-label">Estimated price</div>
-          <div class="price-value">$89</div>
-          <div class="price-note">No hidden fees · Pre-priced service</div>
-        </div>
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="var(--amber)"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
-      </div>
-      <button class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; border-radius:10px;" onclick="alert('Your booking request is being matched to nearby providers!')">Find Available Providers →</button>
-    </div>
-    <div class="float-card provider">
-      <div class="avatar-stack">
-        <div class="av">JM</div>
-        <div class="av">TR</div>
-        <div class="av">SK</div>
-      </div>
-      <div>
-        <div style="font-size:0.78rem;font-weight:700;color:var(--navy)">3 providers nearby</div>
-        <div style="font-size:0.7rem;color:var(--muted)">Available in 2 hours</div>
-      </div>
-    </div>
-    <div class="float-card rating">
-      <div class="rating-num">4.9</div>
-      <div class="stars">★★★★★</div>
-      <div class="rating-sub">12,400+ reviews</div>
-    </div>
+  <div class="hero-chips">
+    <div class="svc-chip active" onclick="selectChip(this)" data-service="Cleaning">🧹 Cleaning</div>
+    <div class="svc-chip" onclick="selectChip(this)" data-service="Lawn">🌿 Lawn</div>
   </div>
 </section>
 
-<!-- STATS BAR -->
-<div class="stats-bar">
-  <div class="stat-item">
-    <span class="stat-num">50<span>K+</span></span>
-    <div class="stat-label">Jobs Completed</div>
-  </div>
-  <div class="stat-item">
-    <span class="stat-num">4.9<span>★</span></span>
-    <div class="stat-label">Average Rating</div>
-  </div>
-  <div class="stat-item">
-    <span class="stat-num">2<span>hr</span></span>
-    <div class="stat-label">Avg. Response Time</div>
-  </div>
-  <div class="stat-item">
-    <span class="stat-num">7<span>days</span></span>
-    <div class="stat-label">A Week Available</div>
-  </div>
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat"><span class="stat-num">2,400+</span><span class="stat-label">Jobs Completed</span></div>
+  <div class="stat"><span class="stat-num">98%</span><span class="stat-label">Satisfaction Rate</span></div>
+  <div class="stat"><span class="stat-num">4.9★</span><span class="stat-label">Average Rating</span></div>
+  <div class="stat"><span class="stat-num">180+</span><span class="stat-label">Local Pros</span></div>
 </div>
 
-<!-- SERVICES -->
-<section class="categories-bg" id="services">
-  <div class="section-header">
-    <div class="section-badge">Services</div>
-    <h2>Whatever needs doing, <br>we've got someone for it</h2>
-    <p>From quick fixes to bigger projects — browse by category and book in minutes.</p>
+<!-- BUILD AROUND YOUR TIME -->
+<section class="your-time">
+  <div class="your-time-header">
+    <span class="section-tag">Flexible Scheduling</span>
+    <h2 class="section-title">Build around your time,<br>not ours.</h2>
+    <p class="section-sub">We work when you work, rest when you rest, and show up when it matters. Your schedule is the only one that counts.</p>
   </div>
-  <div class="cat-tabs" id="catTabs">
-    <div class="cat-tab active" onclick="filterCat('all', this)">All Services</div>
-    <div class="cat-tab" onclick="filterCat('cleaning', this)">🧹 Cleaning</div>
-    <div class="cat-tab" onclick="filterCat('lawn', this)">🌿 Lawn & Yard</div>
-    <div class="cat-tab" onclick="filterCat('handyman', this)">🔧 Handyman</div>
-    <div class="cat-tab" onclick="filterCat('hauling', this)">🚛 Hauling</div>
-    <div class="cat-tab" onclick="filterCat('tech', this)">📱 Tech</div>
-    <div class="cat-tab" onclick="filterCat('organizing', this)">📦 Organizing</div>
-    <div class="cat-tab" onclick="filterCat('pets', this)">🐾 Pets</div>
-    <div class="cat-tab" onclick="filterCat('vehicle', this)">🚗 Vehicle</div>
-  </div>
-
-  <div class="services-grid visible" id="all" data-cat="all">
-
-    <div class="service-card" data-tags="cleaning">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1527515637462-cff94aca208c?w=400&q=80" alt="House Cleaning" loading="lazy">
-      <div class="service-icon">🏠</div>
-      <h4>House Cleaning</h4><p>Full home clean, kitchen & bathrooms, dusting & vacuuming</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$79</span></div>
+  <div class="time-grid">
+    <div class="time-card">
+      <span class="time-card-tag">Morning</span>
+      <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&q=80" alt="Early morning sunrise schedule" loading="lazy">
+      <div class="time-card-overlay"></div>
+      <div class="time-card-label">
+        <h4>Early Bird Slots</h4>
+        <p>Starting as early as 7 AM</p>
+      </div>
     </div>
-
-    <div class="service-card" data-tags="cleaning">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&q=80" alt="Window Washing" loading="lazy">
-      <div class="service-icon">🪟</div>
-      <h4>Window Washing</h4><p>Interior & exterior window cleaning, streak-free results</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$59</span></div>
+    <div class="time-card">
+      <span class="time-card-tag">Midday</span>
+      <img src="https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=700&q=80" alt="Midday home service" loading="lazy">
+      <div class="time-card-overlay"></div>
+      <div class="time-card-label">
+        <h4>While You're at Work</h4>
+        <p>Come home to a clean space</p>
+      </div>
     </div>
-
-    <div class="service-card" data-tags="lawn">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" alt="Lawn Mowing" loading="lazy">
-      <div class="service-icon">🌿</div>
-      <h4>Lawn Mowing</h4><p>Neat mow, trim edges, blow off walkways</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$45</span></div>
+    <div class="time-card">
+      <span class="time-card-tag">Weekend</span>
+      <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=700&q=80" alt="Family enjoying weekend" loading="lazy">
+      <div class="time-card-overlay"></div>
+      <div class="time-card-label">
+        <h4>Weekend Availability</h4>
+        <p>Saturday & Sunday, no extra charge</p>
+      </div>
     </div>
-
-    <div class="service-card" data-tags="lawn">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80" alt="Shrub Trimming" loading="lazy">
-      <div class="service-icon">✂️</div>
-      <h4>Shrub & Hedge Trimming</h4><p>Shape and trim hedges, shrubs and ornamental plants</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$55</span></div>
+    <div class="time-card">
+      <span class="time-card-tag">Same-Day</span>
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80" alt="Same day cleaning service" loading="lazy">
+      <div class="time-card-overlay"></div>
+      <div class="time-card-label">
+        <h4>Same-Day Booking</h4>
+        <p>Book by noon, done today</p>
+      </div>
     </div>
-
-    <div class="service-card" data-tags="handyman">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?w=400&q=80" alt="Furniture Assembly" loading="lazy">
-      <div class="service-icon">🔧</div>
-      <h4>Furniture Assembly</h4><p>IKEA and all flat-pack furniture assembled quickly</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$69</span></div>
+    <div class="time-card">
+      <span class="time-card-tag">Recurring</span>
+      <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=700&q=80" alt="Garden lawn care service" loading="lazy">
+      <div class="time-card-overlay"></div>
+      <div class="time-card-label">
+        <h4>Set It & Forget It</h4>
+        <p>Weekly or biweekly recurring plans</p>
+      </div>
     </div>
-
-    <div class="service-card" data-tags="handyman">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1593784991095-a205069470b6?w=400&q=80" alt="TV Wall Mount" loading="lazy">
-      <div class="service-icon">📺</div>
-      <h4>Mount a Flat-Screen TV</h4><p>Wall mount installation with cable management included</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$89</span></div>
+    <div class="time-card">
+      <span class="time-card-tag">Evening</span>
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80" alt="Evening flexibility remote work" loading="lazy">
+      <div class="time-card-overlay"></div>
+      <div class="time-card-label">
+        <h4>Evening Windows</h4>
+        <p>Available until 8 PM daily</p>
+      </div>
     </div>
-
-    <div class="service-card" data-tags="hauling">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&q=80" alt="Junk Removal" loading="lazy">
-      <div class="service-icon">🚛</div>
-      <h4>Junk Removal</h4><p>Haul away furniture, appliances, boxes & general clutter</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$99</span></div>
-    </div>
-
-    <div class="service-card" data-tags="hauling">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80" alt="Furniture Removal" loading="lazy">
-      <div class="service-icon">🪑</div>
-      <h4>Furniture Removal</h4><p>Remove and dispose of old sofas, tables, mattresses</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$79</span></div>
-    </div>
-
-    <div class="service-card" data-tags="organizing">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=400&q=80" alt="Closet Organizing" loading="lazy">
-      <div class="service-icon">📦</div>
-      <h4>Closet Organizing</h4><p>Sort, declutter and organize any closet or storage space</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$65</span></div>
-    </div>
-
-    <div class="service-card" data-tags="organizing">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" alt="Garage Organization" loading="lazy" style="filter:hue-rotate(30deg)">
-      <div class="service-icon">🏚️</div>
-      <h4>Garage Organization</h4><p>Declutter, sort and organize your garage or shed</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$75</span></div>
-    </div>
-
-    <div class="service-card" data-tags="tech">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1562408590-e32931084e23?w=400&q=80" alt="WiFi Router Setup" loading="lazy">
-      <div class="service-icon">📡</div>
-      <h4>Set Up WiFi Router</h4><p>Configure wireless router and connect your devices</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$59</span></div>
-    </div>
-
-    <div class="service-card" data-tags="tech">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Soundbar Installation" loading="lazy">
-      <div class="service-icon">🔊</div>
-      <h4>Soundbar Installation</h4><p>Mount and configure soundbar or home audio systems</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$69</span></div>
-    </div>
-
-    <div class="service-card" data-tags="lawn">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80" alt="Weeding" loading="lazy">
-      <div class="service-icon">🌺</div>
-      <h4>Weeding Flower Beds</h4><p>Pull weeds, edge beds and clean up garden areas</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$49</span></div>
-    </div>
-
-    <div class="service-card" data-tags="handyman">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1565814636199-ae8133055c1c?w=400&q=80" alt="Light Fixture" loading="lazy">
-      <div class="service-icon">💡</div>
-      <h4>Hang Light Fixtures</h4><p>Install ceiling fans, light fixtures or pendant lights</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$79</span></div>
-    </div>
-
-    <div class="service-card" data-tags="handyman">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1600298882525-02c0a45b7a97?w=400&q=80" alt="Power Washing" loading="lazy">
-      <div class="service-icon">💦</div>
-      <h4>Power Washing</h4><p>Pressure wash driveways, patios, siding and decks</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$89</span></div>
-    </div>
-
-    <div class="service-card" data-tags="pets">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&q=80" alt="Dog Walking" loading="lazy">
-      <div class="service-icon">🐶</div>
-      <h4>Dog Walking</h4><p>30-minute or 60-minute local dog walks</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$25</span></div>
-    </div>
-
-    <div class="service-card" data-tags="pets">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&q=80" alt="Pet Care" loading="lazy">
-      <div class="service-icon">🐾</div>
-      <h4>Pet Waste Removal</h4><p>Yard clean-up and pet waste removal services</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$35</span></div>
-    </div>
-
-    <div class="service-card" data-tags="vehicle">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=400&q=80" alt="Car Detailing" loading="lazy">
-      <div class="service-icon">🚗</div>
-      <h4>Mobile Car Detailing</h4><p>Interior and exterior car detail at your location</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$99</span></div>
-    </div>
-
-    <div class="service-card" data-tags="hauling">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=400&q=80" alt="Moving Help" loading="lazy">
-      <div class="service-icon">📦</div>
-      <h4>Pack & Move (Same Site)</h4><p>Load/unload vehicles, move furniture between rooms</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$69</span></div>
-    </div>
-
-    <div class="service-card" data-tags="lawn">
-      <img class="service-photo" src="https://images.unsplash.com/photo-1548262594-f5a83b354c57?w=400&q=80" alt="Snow Removal" loading="lazy">
-      <div class="service-icon">❄️</div>
-      <h4>Snow Removal</h4><p>Shovel driveways, walkways and clear entryways</p>
-      <div class="service-price"><span class="price-from">Starting from</span><span class="price-amount">$55</span></div>
-    </div>
-
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section class="how-bg" id="how">
-  <div class="section-header">
-    <div class="section-badge">How it works</div>
-    <h2>From order to done in hours</h2>
-    <p>No phone calls, no waiting for estimates, no cash needed.</p>
-  </div>
-  <div class="steps-grid">
-    <div class="step-item">
-      <div class="step-num">1</div>
-      <h3>Pick your service</h3>
-      <p>Choose from our pre-priced service list or create a custom job.</p>
+<section class="how">
+  <span class="section-tag">How It Works</span>
+  <h2 class="section-title">Three steps, zero stress.</h2>
+  <p class="section-sub">From booking to done — the whole thing takes under two minutes.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-icon">📍</div>
+      <h3>Choose Your Service</h3>
+      <p>Cleaning, lawn care, and more. Pick what you need and drop your ZIP code to see available pros nearby.</p>
     </div>
-    <div class="step-item">
-      <div class="step-num">2</div>
-      <h3>Choose a time</h3>
-      <p>Select today or any day this week — morning, afternoon or evening.</p>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-icon">📅</div>
+      <h3>Pick Your Time</h3>
+      <p>See real-time availability for today, tomorrow, or any date ahead. No waiting, no phone calls.</p>
     </div>
-    <div class="step-item">
-      <div class="step-num">3</div>
-      <h3>Get matched</h3>
-      <p>Available background-checked providers near you respond fast.</p>
-    </div>
-    <div class="step-item">
-      <div class="step-num">4</div>
-      <h3>Pay in-app</h3>
-      <p>Secure payment including tips — no cash ever needed.</p>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-icon">✅</div>
+      <h3>We Handle the Rest</h3>
+      <p>Your vetted pro shows up on time. You get a confirmation, updates, and a recap when the job is done.</p>
     </div>
   </div>
 </section>
 
-<!-- PERKS -->
-<section>
-  <div class="section-header">
-    <div class="section-badge">Why TaskDash</div>
-    <h2>Built around your time, not ours</h2>
-    <p>Every feature exists to make getting help faster, simpler and more trustworthy.</p>
+<!-- TRUSTED BY -->
+<section class="trusted">
+  <div class="trusted-header">
+    <span class="section-tag">Trusted By</span>
+    <h2 class="section-title" style="color:#fff;">Real people. Real results.</h2>
+    <p class="section-sub">Homeowners across the Phoenix metro trust TaskDash to get things done right, every time.</p>
   </div>
-  <div class="perks-grid">
-    <div class="perk-card">
-      <div class="perk-icon">⚡</div>
-      <h3>Same-day convenience</h3>
-      <p>Find help any day of the week at the time that works for you — including today.</p>
-    </div>
-    <div class="perk-card">
-      <div class="perk-icon">💰</div>
-      <h3>Reliable, pre-set pricing</h3>
-      <p>Every service is pre-priced. You'll always know the cost before you book — no estimates, no surprises.</p>
-    </div>
-    <div class="perk-card">
-      <div class="perk-icon">✅</div>
-      <h3>Background-checked providers</h3>
-      <p>Every provider on our platform is vetted and background-checked before their first job.</p>
-    </div>
-    <div class="perk-card">
-      <div class="perk-icon">🛡️</div>
-      <h3>Our guarantee</h3>
-      <p>Not satisfied? We'll work with you to make it right — every single time.</p>
-    </div>
-    <div class="perk-card">
-      <div class="perk-icon">📞</div>
-      <h3>7-day customer support</h3>
-      <p>Real support available every day of the week — because life doesn't stick to business hours.</p>
-    </div>
-    <div class="perk-card">
-      <div class="perk-icon">📱</div>
-      <h3>Cashless payments & tips</h3>
-      <p>Pay securely through the app. Add a tip with one tap — no cash ever needed.</p>
-    </div>
-  </div>
-</section>
-
-<!-- WHO USES IT -->
-<section id="pros" style="background: var(--off);">
-  <div class="section-header">
-    <div class="section-badge">Professional Use</div>
-    <h2>Trusted by homeowners <em style="font-family:'Fraunces',serif">and</em> pros</h2>
-    <p>Whether you manage one home or many, TaskDash scales to meet your needs.</p>
-  </div>
-  <div class="pros-grid">
-    <div class="pro-card">
-      <div class="pro-icon-wrap teal">🏡</div>
-      <div>
-        <h3>Homeowners</h3>
-        <p>Your go-to task manager for housekeeping, small repairs, lawn maintenance, home improvements and more. Get things done without the hassle.</p>
+  <div class="trust-grid">
+    <div class="trust-card">
+      <img class="trust-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&q=80" alt="Marcus T.">
+      <div class="trust-info">
+        <div class="trust-stars">★★★★★</div>
+        <p class="trust-quote">"Booked a cleaner at 10 AM and they were at my door by 1 PM. Spotless job. Unreal."</p>
+        <div class="trust-name">Marcus T.</div>
+        <div class="trust-loc">Scottsdale, AZ</div>
       </div>
     </div>
-    <div class="pro-card">
-      <div class="pro-icon-wrap amber">🏖️</div>
-      <div>
-        <h3>Vacation Rental Managers</h3>
-        <p>Home-sharing and vacation rental managers rely on us for remote cleaning, trash removal, landscaping and turnover repairs between guests.</p>
+    <div class="trust-card">
+      <img class="trust-avatar" src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=120&q=80" alt="Denise R.">
+      <div class="trust-info">
+        <div class="trust-stars">★★★★★</div>
+        <p class="trust-quote">"I work nights, so morning availability was everything. TaskDash actually gets it."</p>
+        <div class="trust-name">Denise R.</div>
+        <div class="trust-loc">Tempe, AZ</div>
       </div>
     </div>
-    <div class="pro-card">
-      <div class="pro-icon-wrap navy">🎨</div>
-      <div>
-        <h3>Interior Designers</h3>
-        <p>Use our service for installation day help — moving furniture, hanging artwork, assembling pieces and decorating support on deadline.</p>
+    <div class="trust-card">
+      <img class="trust-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80" alt="Jerome K.">
+      <div class="trust-info">
+        <div class="trust-stars">★★★★★</div>
+        <p class="trust-quote">"Set up a weekly lawn plan in two minutes. My yard has never looked this good consistently."</p>
+        <div class="trust-name">Jerome K.</div>
+        <div class="trust-loc">Gilbert, AZ</div>
       </div>
     </div>
-    <div class="pro-card">
-      <div class="pro-icon-wrap pink">🏠</div>
-      <div>
-        <h3>Realtors</h3>
-        <p>Help homeowners quickly get a house show-ready — cleaning, junk removal, light repairs and yard work on a tight timeline before listing.</p>
+    <div class="trust-card">
+      <img class="trust-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&q=80" alt="Keisha M.">
+      <div class="trust-info">
+        <div class="trust-stars">★★★★★</div>
+        <p class="trust-quote">"Had guests coming last minute. TaskDash saved the whole day. The pro was amazing."</p>
+        <div class="trust-name">Keisha M.</div>
+        <div class="trust-loc">Mesa, AZ</div>
       </div>
     </div>
-    <div class="pro-card">
-      <div class="pro-icon-wrap amber">🏢</div>
-      <div>
-        <h3>Small Businesses</h3>
-        <p>Find last-minute help with office cleaning, tree limb removal, small office repairs and other tasks that can't wait for a contractor quote.</p>
+    <div class="trust-card">
+      <img class="trust-avatar" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&q=80" alt="Carlos V.">
+      <div class="trust-info">
+        <div class="trust-stars">★★★★★</div>
+        <p class="trust-quote">"Transparent pricing, no surprises. I always know what I'm paying before I confirm."</p>
+        <div class="trust-name">Carlos V.</div>
+        <div class="trust-loc">Chandler, AZ</div>
       </div>
     </div>
-    <div class="pro-card">
-      <div class="pro-icon-wrap teal">🏗️</div>
-      <div>
-        <h3>Property Managers</h3>
-        <p>Keep properties maintained between tenants or during transitions. Reliable, trackable help across multiple units and locations.</p>
+    <div class="trust-card">
+      <img class="trust-avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&q=80" alt="Tamara J.">
+      <div class="trust-info">
+        <div class="trust-stars">★★★★★</div>
+        <p class="trust-quote">"The recurring plan is a game-changer. One setup and my home stays clean week after week."</p>
+        <div class="trust-name">Tamara J.</div>
+        <div class="trust-loc">Phoenix, AZ</div>
       </div>
     </div>
   </div>
 </section>
-
-<!-- GUARANTEE -->
-<section style="background: white;">
-  <div class="guarantee-wrap">
-    <div>
-      <h2>Our Satisfaction Guarantee</h2>
-      <p>If you're not completely satisfied with the work done, we don't just apologize — we take action. Our customer support team is available 7 days a week to review your job and work with you to make it right, whether that means a partial refund, a redo, or a resolution. We stand behind every job on this platform.</p>
-    </div>
-    <div class="guarantee-badge">100%<br>Satisfaction<br>Guaranteed</div>
-  </div>
-</section>
-
-<!-- CUSTOM JOB -->
-<div class="custom-section">
-  <div>
-    <h2>Need something specific? Create a Custom Job.</h2>
-    <p>Build nearly any small job for a pre-priced amount — painting walls, special home maintenance, multiple loads of junk, and more. You set the task, we find the help.</p>
-  </div>
-  <a href="#booking" class="btn btn-primary btn-xl" style="white-space:nowrap">Create Custom Job →</a>
-</div>
 
 <!-- PROVIDER CTA -->
-<section class="provider-section" id="providers">
-  <div class="section-badge">For Providers</div>
-  <h2>Turn your skills into same-day income</h2>
-  <p>Join our network of approved local providers. Set your own hours, choose your jobs, and get paid through the app. No overhead, no hassle.</p>
-  <div class="email-form">
-    <input type="email" placeholder="Enter your email address" />
-    <button class="btn btn-primary" style="white-space:nowrap; padding:13px 24px;" onclick="alert('Thanks! We\'ll be in touch about becoming a TaskDash provider.')">Apply to Join →</button>
+<div class="provider-cta">
+  <div class="provider-cta-text">
+    <h2>Make money on your schedule.</h2>
+    <p>Join 180+ local pros earning on TaskDash. Set your own hours, choose your jobs, and get paid quickly. No commute required.</p>
   </div>
-  <div class="provider-perks">
-    <div class="p-perk">✅ Set your own schedule</div>
-    <div class="p-perk">✅ Choose jobs you want</div>
-    <div class="p-perk">✅ Get paid in-app</div>
-    <div class="p-perk">✅ Background check required</div>
+  <div class="provider-cta-actions">
+    <a class="btn btn-dark" href="mailto:wearepowerof3@gmail.com?subject=Become%20a%20Provider&body=Hi%20TaskDash%2C%0A%0AI%27m%20interested%20in%20becoming%20a%20service%20provider.%0A%0AName%3A%20%0AService%20Type%20(Cleaning%2C%20Lawn%2C%20Other)%3A%20%0ACity%2FZIP%3A%20%0APhone%3A%20%0AYears%20of%20Experience%3A%20%0A%0AThank%20you!">Become a Provider</a>
+    <button class="btn btn-white" onclick="openModal()">Book Now</button>
   </div>
-</section>
+</div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-top">
-    <div>
-      <span class="footer-logo">TaskDash</span>
-      <p class="footer-desc">Same-day help for the tasks life throws at you — from a network of vetted, background-checked local providers.</p>
-      <div class="app-badges" style="margin-top:1.25rem">
-        <div class="app-badge">📱 App Store</div>
-        <div class="app-badge">▶ Google Play</div>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h4>Services</h4>
-      <a href="#">House Cleaning</a>
-      <a href="#">Lawn & Yard</a>
-      <a href="#">Handyman</a>
-      <a href="#">Junk Removal</a>
-      <a href="#">Tech Help</a>
-      <a href="#">Custom Jobs</a>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <a href="#">About Us</a>
-      <a href="#">How It Works</a>
-      <a href="#">Guarantee</a>
-      <a href="#">For Businesses</a>
-      <a href="#">Blog</a>
-    </div>
-    <div class="footer-col">
-      <h4>Support</h4>
-      <a href="#">Help Center</a>
-      <a href="#">Contact Us</a>
-      <a href="#">Become a Provider</a>
-      <a href="#">Terms of Service</a>
-      <a href="#">Privacy Policy</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2025 TaskDash. All rights reserved. Not all services available in all areas.</span>
-    <span>Designed to make life easier, one task at a time.</span>
-  </div>
+  <div class="logo">TaskDash</div>
+  <p style="margin-bottom:10px;">Same-day home services across the Phoenix Metro.</p>
+  <p><a href="mailto:wearepowerof3@gmail.com">wearepowerof3@gmail.com</a> &nbsp;·&nbsp; <a href="#">Privacy</a> &nbsp;·&nbsp; <a href="#">Terms</a></p>
+  <p style="margin-top:18px;">© 2025 TaskDash. All rights reserved.</p>
 </footer>
 
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="progress-bar"><div id="progress"></div></div>
+
+    <div id="step1" class="booking-step active">
+      <h3>Select Service</h3>
+      <div class="step-chips">
+        <div class="svc-chip active" onclick="selectService(this)" data-service="Cleaning">🧹 Cleaning</div>
+        <div class="svc-chip" onclick="selectService(this)" data-service="Lawn">🌿 Lawn</div>
+      </div>
+      <button class="btn" style="width:100%" onclick="next(2)">Next →</button>
+    </div>
+
+    <div id="step2" class="booking-step">
+      <h3>Your Details</h3>
+      <input id="zip" placeholder="ZIP Code" value="85001">
+      <input id="time" placeholder="Preferred Time" value="Today 2PM">
+      <button class="btn" style="width:100%;margin-top:8px" onclick="next(3)">Find Pros →</button>
+    </div>
+
+    <div id="step3" class="booking-step">
+      <h3>Choose a Pro</h3>
+      <div id="providers">Finding pros near you…</div>
+      <button class="btn" style="width:100%;margin-top:8px" onclick="confirmBooking()">Confirm Booking</button>
+    </div>
+
+    <div id="success" class="booking-step">
+      <div style="font-size:3rem;margin-bottom:12px">🎉</div>
+      <h2>You're Booked!</h2>
+      <p id="details"></p>
+      <button class="btn" onclick="closeModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-function toggleChip(el) {
-  document.querySelectorAll('.svc-chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  const prices = { 'House Cleaning': '$89', 'Lawn Care': '$55', 'Junk Removal': '$99', 'Handyman': '$79' };
-  const txt = el.innerText.trim();
-  for (const [key, val] of Object.entries(prices)) {
-    if (txt.includes(key.split(' ')[0])) {
-      document.querySelector('.price-value').textContent = val;
-      break;
-    }
+  const PROVIDERS = [
+    { name: 'Maria G.', rating: '4.9 ★ · 312 jobs', img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&q=80' },
+    { name: 'David L.', rating: '4.8 ★ · 198 jobs', img: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&q=80' },
+    { name: 'Priya K.', rating: '5.0 ★ · 87 jobs',  img: 'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?w=80&q=80' },
+  ];
+
+  let currentStep = 1;
+  let selectedService = 'Cleaning';
+  let selectedProvider = null;
+
+  function selectChip(el) {
+    document.querySelectorAll('.booking-card .svc-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
   }
-}
 
-function filterCat(cat, tab) {
-  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-  tab.classList.add('active');
+  function selectService(el) {
+    document.querySelectorAll('#step1 .svc-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    selectedService = el.dataset.service;
+  }
 
-  const grid = document.getElementById('all');
-  const cards = grid.querySelectorAll('.service-card');
+  function next(step) {
+    document.querySelectorAll('.booking-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step' + step).classList.add('active');
+    document.getElementById('progress').style.width = (step === 2 ? 66 : 100) + '%';
+    currentStep = step;
 
-  cards.forEach(card => {
-    const tags = card.getAttribute('data-tags');
-    if (cat === 'all' || (tags && tags.includes(cat))) {
-      card.style.display = '';
-    } else {
-      card.style.display = 'none';
-    }
-  });
-}
+    if (step === 3) loadProviders();
+  }
 
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
-
-// Animate stats on scroll
-const statNums = document.querySelectorAll('.stat-num');
-const targets = [50000, 4.9, 2, 7];
-const formats = [v => `${Math.round(v/1000)}K+`, v => v.toFixed(1) + '★', v => `${Math.round(v)}hr`, v => `${Math.round(v)}days`];
-let animated = false;
-
-const observer = new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting && !animated) {
-    animated = true;
-    statNums.forEach((el, i) => {
-      const target = targets[i];
-      const fmt = formats[i];
-      let start = 0; const duration = 1200;
-      const step = timestamp => {
-        if (!start) start = timestamp;
-        const progress = Math.min((timestamp - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        el.innerHTML = fmt(target * eased);
-        if (progress < 1) requestAnimationFrame(step);
+  function loadProviders() {
+    const el = document.getElementById('providers');
+    el.innerHTML = '<p style="color:#6b7280;font-size:.85rem;margin-bottom:14px">Pros available near ' + document.getElementById('zip').value + '</p>';
+    PROVIDERS.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'provider-card';
+      card.innerHTML = `<img src="${p.img}" alt="${p.name}"><div class="provider-card-info"><strong>${p.name}</strong><span>${p.rating}</span></div><span class="provider-card-rating">★</span>`;
+      card.onclick = () => {
+        document.querySelectorAll('.provider-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        selectedProvider = p.name;
       };
-      requestAnimationFrame(step);
+      el.appendChild(card);
     });
   }
-}, { threshold: 0.5 });
 
-const statsBar = document.querySelector('.stats-bar');
-if (statsBar) observer.observe(statsBar);
+  function confirmBooking() {
+    if (!selectedProvider) { showToast('Please select a pro first'); return; }
+    document.querySelectorAll('.booking-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('success').classList.add('active');
+    document.getElementById('details').textContent =
+      selectedService + ' with ' + selectedProvider + ' · ' + document.getElementById('time').value + ' · ZIP ' + document.getElementById('zip').value;
+    document.getElementById('progress').style.width = '100%';
+  }
+
+  function openModal() {
+    document.getElementById('modal').classList.add('open');
+    document.querySelectorAll('.booking-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step1').classList.add('active');
+    document.getElementById('progress').style.width = '33%';
+    selectedProvider = null;
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+  }
+
+  document.getElementById('modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal')) closeModal();
+  });
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
 </script>
 </body>
 </html>
